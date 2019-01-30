@@ -2,6 +2,7 @@ package com.diatanato.android.fretboarlogic;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -37,7 +38,11 @@ public class Octave
     public final static int ALTERATION_SHARP = 1;
     public final static int ALTERATION_FLAT  = 2;
 
-    public final @NoteAlteration List<Integer> getNotes(@NoteAlteration int alteration)
+    /** Основные ноты и полутона с указанными знаками альтерации. */
+
+    @NonNull
+    @NoteAlteration
+    public final List<Integer> getNotes(@NoteAlteration int alteration)
     {
         switch (alteration)
         {
@@ -50,16 +55,27 @@ public class Octave
         throw new IllegalArgumentException();
     }
 
-    public final @NoteAlteration List<Integer> getNotes()
+    /** Основные ноты и полутона. */
+
+    @NonNull
+    @NoteAlteration
+    public final List<Integer> getNotes()
     {
         return Arrays.asList(C, CD, D, DE, E, F, FG, G, GA, A, AB, B);
     }
 
-    public final @NoteAlteration List<Integer> getRootNotes()
+    /** Основные ноты. */
+
+    @NonNull
+    @NoteAlteration
+    public final List<Integer> getRootNotes()
     {
         return Arrays.asList(C, D, E, F, G, A, B);
     }
 
+    /** Текстовое написание основных нот и полутонов в диез. */
+
+    @NonNull
     @SuppressLint("SwitchIntDef")
     public final String getNoteNameSharp(@NoteIndex int note)
     {
@@ -74,6 +90,9 @@ public class Octave
         return getRootNoteName(note);
     }
 
+    /** Текстовое написание основных нот и полутонов в бемоль. */
+
+    @NonNull
     @SuppressLint("SwitchIntDef")
     public final String getNoteNameFlat(@NoteIndex int note)
     {
@@ -88,6 +107,9 @@ public class Octave
         return getRootNoteName(note);
     }
 
+    /** Текстовое написание основных нот. */
+
+    @NonNull
     @SuppressLint("SwitchIntDef")
     public final String getRootNoteName(@NoteIndex int note)
     {
