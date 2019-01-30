@@ -1,11 +1,20 @@
 package com.diatanato.android.fretboarlogic;
 
+import android.annotation.SuppressLint;
+import android.support.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Arrays;
 import java.util.List;
 
 public class Octave
 {
     private static Octave INSTANCE;
+
+    @IntDef({C, CD, D, DE, E, F, FG, G, GA, A, AB, B})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface NoteIndex { }
 
     public final static int C  =  0;
     public final static int CD =  1;
@@ -20,17 +29,39 @@ public class Octave
     public final static int AB = 10;
     public final static int B  = 11;
 
-    public final List<Integer> getNotes()
+    @IntDef({ALTERATION_NONE, ALTERATION_SHARP, ALTERATION_FLAT})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface NoteAlteration { }
+
+    public final static int ALTERATION_NONE  = 0;
+    public final static int ALTERATION_SHARP = 1;
+    public final static int ALTERATION_FLAT  = 2;
+
+    public final @NoteAlteration List<Integer> getNotes(@NoteAlteration int alteration)
+    {
+        switch (alteration)
+        {
+            case ALTERATION_SHARP:
+            case ALTERATION_FLAT:
+                return getInstance().getNotes();
+            case ALTERATION_NONE:
+                return getInstance().getRootNotes();
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public final @NoteAlteration List<Integer> getNotes()
     {
         return Arrays.asList(C, CD, D, DE, E, F, FG, G, GA, A, AB, B);
     }
 
-    public final List<Integer> getRootNotes()
+    public final @NoteAlteration List<Integer> getRootNotes()
     {
         return Arrays.asList(C, D, E, F, G, A, B);
     }
 
-    public final String getNoteNameSharp(int note)
+    @SuppressLint("SwitchIntDef")
+    public final String getNoteNameSharp(@NoteIndex int note)
     {
         switch (note)
         {
@@ -43,7 +74,8 @@ public class Octave
         return getRootNoteName(note);
     }
 
-    public final String getNoteNameFlat(int note)
+    @SuppressLint("SwitchIntDef")
+    public final String getNoteNameFlat(@NoteIndex int note)
     {
         switch (note)
         {
@@ -56,7 +88,8 @@ public class Octave
         return getRootNoteName(note);
     }
 
-    public final String getRootNoteName(int note)
+    @SuppressLint("SwitchIntDef")
+    public final String getRootNoteName(@NoteIndex int note)
     {
         switch (note)
         {
@@ -68,7 +101,7 @@ public class Octave
             case  A: return "A";
             case  B: return "B";
         }
-        return "?";
+        throw new IllegalArgumentException();
     }
 
     public synchronized static Octave getInstance()
