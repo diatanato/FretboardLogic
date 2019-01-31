@@ -38,6 +38,14 @@ public class Octave
     public final static int ALTERATION_SHARP = 1;
     public final static int ALTERATION_FLAT  = 2;
 
+    /** Узнаем ноту через указанный интервал (смещение). */
+
+    @NoteIndex
+    public final int getIntervalNote(@NoteIndex int note, int interval)
+    {
+        return (note + interval) % 12;
+    }
+
     /** Основные ноты и полутона с указанными знаками альтерации. */
 
     @NonNull
