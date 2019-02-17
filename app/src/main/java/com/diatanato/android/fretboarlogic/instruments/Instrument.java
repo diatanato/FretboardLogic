@@ -8,9 +8,10 @@ import com.diatanato.android.fretboarlogic.Octave.NoteIndex;
 import java.util.List;
 import java.util.Random;
 
-public class Instrument
+public abstract class Instrument
 {
     private static Random mRandom = new Random();
+    private static Octave mOctave = Octave.getInstance();
 
     protected List<InstrumentString> mTuning;
 
@@ -31,7 +32,7 @@ public class Instrument
     {
         if (string < mTuning.size())
         {
-            return Octave.getInstance().getIntervalNote(mTuning.get(string).getNote(), fret) ;
+            return mOctave.getIntervalNote(mTuning.get(string).getNote(), fret) ;
         }
         throw new IllegalArgumentException();
     }
@@ -54,15 +55,22 @@ public class Instrument
             //проверяем, что струна включена в настройках
             if (mTuning.get(string).isActivated())
             {
-                fret = getRandom(settings.minFret(), settings.maxFret() + 1);
+                fret = getRandom(
+                    Math.max(getMinFret(), settings.minFret()),
+                    Math.min(getMaxFret(), settings.maxFret()) + 1);
+
                 note = getNote(string, fret);
 
                 //проверяем, что выбранная нота доступна
-                if (Octave.getInstance().getNotes(settings.alteration()).contains(note))
+                if (mOctave.getNotes(settings.alteration()).contains(note))
                 {
-                    return new FretboardNote(string, fret, note);
+                    return new FretboardNote(note, fret, string);
                 }
             }
         }
     }
+
+    public abstract int getMinFret();
+
+    public abstract int getMaxFret();
 }

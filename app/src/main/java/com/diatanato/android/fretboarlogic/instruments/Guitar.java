@@ -18,4 +18,16 @@ public class Guitar extends Instrument
             new InstrumentString(Octave.E, true)
         );
     }
+
+    @Override
+    public int getMinFret()
+    {
+        return 0;
+    }
+
+    @Override
+    public int getMaxFret()
+    {
+        return 24;
+    }
 }

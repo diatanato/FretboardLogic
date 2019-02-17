@@ -1,6 +1,7 @@
 package com.diatanato.android.fretboarlogic;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
@@ -20,4 +21,12 @@ public class FretboardView extends RelativeLayout
     {
         super(context, attrs, defStyleAttr);
     }
+
+    @Override
+    protected void onAttachedToWindow()
+    {
+        super.onAttachedToWindow();
+        ((ConstraintLayout.LayoutParams)getLayoutParams()).dimensionRatio = "1927:310"; //TODO: Instrument.getDrawableWidth : Instrument.getDrawableHeight
+    }
+
 }
