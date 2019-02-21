@@ -22,7 +22,7 @@ public class AppSettings
 
     public int maxFret()
     {
-        return 21;
+        return 24;
     }
 
     /** Используемые знаки альтерации. */

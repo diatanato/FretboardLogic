@@ -1,12 +1,17 @@
 package com.diatanato.android.fretboarlogic.instruments;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
+
+import com.diatanato.android.fretboarlogic.Fretboard;
 import com.diatanato.android.fretboarlogic.Octave;
+import com.diatanato.android.fretboarlogic.R;
 
 import java.util.Arrays;
 
 public class Guitar extends Instrument
 {
-    public Guitar()
+    public Guitar(Context context)
     {
         mTuning = Arrays.asList
         (
@@ -17,17 +22,6 @@ public class Guitar extends Instrument
             new InstrumentString(Octave.A, true),
             new InstrumentString(Octave.E, true)
         );
-    }
-
-    @Override
-    public int getMinFret()
-    {
-        return 0;
-    }
-
-    @Override
-    public int getMaxFret()
-    {
-        return 24;
+        mFretboard = new Fretboard(ContextCompat.getDrawable(context, R.drawable.fretboard_guitar), 0, 24);
     }
 }

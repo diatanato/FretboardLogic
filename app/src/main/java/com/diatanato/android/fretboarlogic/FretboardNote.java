@@ -4,30 +4,36 @@ import static com.diatanato.android.fretboarlogic.Octave.NoteIndex;
 
 public class FretboardNote
 {
-    private final int mString;
-    private final int mFret;
     private final int mNote;
+    private final int mFret;
+    private final int mString;
 
-    public FretboardNote(int string, int fret, @NoteIndex int note)
+    public FretboardNote(@NoteIndex int note, int fret, int string)
     {
-        mString = string;
-        mFret   = fret;
         mNote   = note;
+        mFret   = fret;
+        mString = string;
     }
 
-    public int getString()
+    /** Возвращает индекс ноты. */
+
+    @NoteIndex
+    public int getNote()
     {
-        return mString;
+        return mNote;
     }
+
+    /** Возвращает индекс лада. */
 
     public int getFret()
     {
         return mFret;
     }
 
-    @NoteIndex
-    public int getNote()
+    /** Возвращает индекс струны. */
+
+    public int getString()
     {
-        return mNote;
+        return mString;
     }
 }

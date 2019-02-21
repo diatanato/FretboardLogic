@@ -1,15 +1,28 @@
 package com.diatanato.android.fretboarlogic;
 
-import java.util.List;
+import android.content.Context;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
-public class FretboardPoint
+public class FretboardPoint extends ViewGroup
 {
     private final FretboardNote mNote;
-    private final List<Integer> mColors;
+    private       TextView      mText;
 
-    public FretboardPoint(FretboardNote note, List<Integer> colors)
+    public FretboardPoint(Context context, FretboardNote note)
     {
-        mNote   = note;
-        mColors = colors;
+        super(context);
+
+        mNote = note;
+        mText = new TextView(context);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b)
+    {
+        if (mText != null)
+        {
+            //TODO: позиция текста
+        }
     }
 }
