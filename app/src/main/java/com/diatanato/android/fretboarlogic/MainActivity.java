@@ -2,6 +2,7 @@ package com.diatanato.android.fretboarlogic;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity
     public void onClick()
     {
         mFretboard.removeView(mPoint);
-        mPoint = mFretboard.addRandomPoint(mSettings);
+        mPoint = mFretboard.addRandomPoint(mSettings, FretboardView.POINT_CROSS);
+        mPoint.setTextVisibility(View.INVISIBLE);
     }
 }

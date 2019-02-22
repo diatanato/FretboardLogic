@@ -70,7 +70,7 @@ public abstract class Instrument
                 //проверяем, что выбранная нота доступна
                 if (mOctave.getNotes(settings.alteration()).contains(note))
                 {
-                    return new FretboardNote(note, fret, string);
+                    return new FretboardNote(note, settings.alteration(), fret, string);
                 }
             }
         }

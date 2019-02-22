@@ -13,6 +13,9 @@ public class Octave
 {
     private static Octave INSTANCE;
 
+    private final List<Integer> mNotes;
+    private final List<Integer> mRootNotes;
+
     @IntDef({C, CD, D, DE, E, F, FG, G, GA, A, AB, B})
     @Retention(RetentionPolicy.SOURCE)
     public @interface NoteIndex { }
@@ -38,6 +41,12 @@ public class Octave
     public final static int ALTERATION_SHARP = 1;
     public final static int ALTERATION_FLAT  = 2;
 
+    public Octave()
+    {
+        mNotes     = Arrays.asList(C, CD, D, DE, E, F, FG, G, GA, A, AB, B);
+        mRootNotes = Arrays.asList(C, D, E, F, G, A, B);
+    }
+
     /** Узнаем ноту через указанный интервал (смещение). */
 
     @NoteIndex
@@ -56,9 +65,9 @@ public class Octave
         {
             case ALTERATION_SHARP:
             case ALTERATION_FLAT:
-                return getInstance().getNotes();
+                return getNotes();
             case ALTERATION_NONE:
-                return getInstance().getRootNotes();
+                return getRootNotes();
         }
         throw new IllegalArgumentException();
     }
@@ -69,7 +78,7 @@ public class Octave
     @NoteAlteration
     public final List<Integer> getNotes()
     {
-        return Arrays.asList(C, CD, D, DE, E, F, FG, G, GA, A, AB, B);
+        return mNotes;
     }
 
     /** Основные ноты. */
@@ -78,7 +87,24 @@ public class Octave
     @NoteAlteration
     public final List<Integer> getRootNotes()
     {
-        return Arrays.asList(C, D, E, F, G, A, B);
+        return mRootNotes;
+    }
+
+    /** Текстовое написание ноты с учетом альтерации. */
+
+    @NonNull
+    public final String getNoteName(@NoteIndex int note, @NoteAlteration int alteration)
+    {
+        switch (alteration)
+        {
+            case ALTERATION_SHARP:
+                return getNoteNameSharp(note);
+            case ALTERATION_FLAT:
+                return getNoteNameFlat(note);
+            case ALTERATION_NONE:
+                return getRootNoteName(note);
+        }
+        throw new IllegalArgumentException();
     }
 
     /** Текстовое написание основных нот и полутонов в диез. */

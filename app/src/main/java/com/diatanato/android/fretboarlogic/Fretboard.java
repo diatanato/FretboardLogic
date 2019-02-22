@@ -6,7 +6,8 @@ import android.graphics.drawable.Drawable;
 
 public class Fretboard
 {
-    private final Drawable mImage;
+    private final Drawable       mImage;
+    private final FretboardSpecs mSpecs;
 
     private final int mMinFret;
     private final int mMaxFret;
@@ -14,6 +15,8 @@ public class Fretboard
     public Fretboard(Drawable image, int min, int max)
     {
         mImage   = image;
+        mSpecs   = null;
+
         mMinFret = min;
         mMaxFret = max;
     }
@@ -23,6 +26,13 @@ public class Fretboard
     public Drawable getImage()
     {
         return mImage;
+    }
+
+    /** Спецификации грифа. */
+
+    public FretboardSpecs getSpecs()
+    {
+        return mSpecs;
     }
 
     /** Минимальный лад. */
