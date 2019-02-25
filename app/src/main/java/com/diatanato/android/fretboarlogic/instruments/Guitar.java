@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
 import com.diatanato.android.fretboarlogic.Fretboard;
+import com.diatanato.android.fretboarlogic.FretboardSpecs;
 import com.diatanato.android.fretboarlogic.Octave;
 import com.diatanato.android.fretboarlogic.R;
 
@@ -22,6 +23,10 @@ public class Guitar extends Instrument
             new InstrumentString(Octave.A, true),
             new InstrumentString(Octave.E, true)
         );
-        mFretboard = new Fretboard(ContextCompat.getDrawable(context, R.drawable.fretboard_guitar), 0, 24);
+        mFretboard = new Fretboard(
+            ContextCompat.getDrawable(context, R.drawable.fretboard_guitar),
+            new FretboardSpecs(),
+            0,
+            24);
     }
 }

@@ -12,13 +12,20 @@ public class Fretboard
     private final int mMinFret;
     private final int mMaxFret;
 
-    public Fretboard(Drawable image, int min, int max)
+    public Fretboard(Drawable image, FretboardSpecs specs, int min, int max)
     {
         mImage   = image;
-        mSpecs   = null;
+        mSpecs   = specs;
 
         mMinFret = min;
         mMaxFret = max;
+    }
+
+    /** Корректирует спецификации с учетом текущих размеров компонента. */
+
+    public void measure(int width, int height)
+    {
+        //TODO: в идеале - генерировать на основании изображения и корректировать под размеры
     }
 
     /** Изображение грифа. */

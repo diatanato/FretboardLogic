@@ -33,6 +33,8 @@ public class FretboardView extends RelativeLayout
     public final static int POINT_GREEN = 2;
     public final static int POINT_BLUE  = 3;
 
+    public final static int SCALE_REVERS = -1;
+
     //TODO: выбираем инструмент в соответствии с настройками
     private final Instrument mInstrument = new Guitar(getContext());
 
@@ -58,9 +60,20 @@ public class FretboardView extends RelativeLayout
         int w = fretboard.getIntrinsicWidth();
         int h = fretboard.getIntrinsicHeight();
 
-        setScaleX(-1); //TODO: проверяем settings.reverse()
+        setScaleX(SCALE_REVERS); //TODO: проверяем settings.reverse()
 
         ((ConstraintLayout.LayoutParams)getLayoutParams()).dimensionRatio =  w + ":" + h;
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        int w = getMeasuredWidth();
+        int h = getMeasuredHeight();
+
+        mInstrument.getFretboard().measure(w, h);
     }
 
     /** Добавляет случайную ноту на гриф. */
@@ -87,7 +100,7 @@ public class FretboardView extends RelativeLayout
 
         if (settings.reverse())
         {
-            point.setScaleX(-1);
+            point.setScaleX(SCALE_REVERS);
         }
         addView(point);
         return point;
@@ -97,12 +110,34 @@ public class FretboardView extends RelativeLayout
 
     private Rect getPointPosition(int fret, int string)
     {
-        int pointheight = 38;
+        //TODO: пересчет пропорций с учетом текущих width и height только в момент изменения размеров коптонета
+        FretboardSpecs specs = mInstrument.getFretboard().getSpecs();
 
-        int left = 110 - pointheight / 2;
-        int top  =  62 - pointheight / 2;
+        int pointsize = 32;
 
-        return new Rect(left, top, left + pointheight, top + pointheight);
+        float left = getMeasuredWidth()  * specs.getFretPadding();
+        float top  = getMeasuredHeight() * specs.getStringPadding();
+
+        float lastFretSize    = getMeasuredWidth() * specs.getFretSize();
+        float currentFretSize = 0;
+
+        for (int i = 0; i < string; i++)
+        {
+            top += getMeasuredHeight() * specs.getStringStep();
+        }
+        for (int i = 0; i < fret; i++)
+        {
+            left += currentFretSize;
+
+            currentFretSize = lastFretSize * specs.getFretStep();
+            lastFretSize    = currentFretSize;
+        }
+        left += currentFretSize / 2;
+
+        left -= pointsize / 2;
+        top  -= pointsize / 2;
+
+        return new Rect((int)left, (int)top, (int)left + pointsize, (int)top + pointsize);
     }
 
     /** Возвращает оформление фона для точки на грифе. */
