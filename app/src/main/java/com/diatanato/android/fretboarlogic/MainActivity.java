@@ -18,13 +18,21 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         mFretboard = findViewById(R.id.fretboard);
-        mFretboard.setOnClickListener(view -> onClick());
+        mFretboard.setOnClickListener(view -> updatePoint());
     }
 
-    public void onClick()
+    public void onClick(View param)
+    {
+        if (mPoint.getNote().getNote() == Integer.parseInt(param.getTag().toString()))
+        {
+            updatePoint();
+        }
+    }
+
+    private void updatePoint()
     {
         mFretboard.removeView(mPoint);
-        mPoint = mFretboard.addRandomPoint(mSettings, FretboardView.POINT_CROSS);
+        mPoint = mFretboard.addRandomPoint(mSettings, FretboardView.POINT_RED);
         mPoint.setTextVisibility(View.INVISIBLE);
     }
 }
