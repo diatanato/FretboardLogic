@@ -39,9 +39,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.32"
-     inkscape:cx="400.13389"
-     inkscape:cy="204.2417"
+     inkscape:zoom="1.518127"
+     inkscape:cx="990.79823"
+     inkscape:cy="154.96063"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -57,7 +57,8 @@
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:snap-object-midpoints="false">
+     inkscape:snap-object-midpoints="false"
+     inkscape:showpageshadow="false">
     <sodipodi:guide
        position="36.353,185.73315"
        orientation="1,0"
@@ -223,7 +224,7 @@
        position="485.77702,110.39057"
        orientation="1,0"
        id="guide868"
-       inkscape:locked="true"
+       inkscape:locked="false"
        inkscape:label=""
        inkscape:color="rgb(0,0,255)" />
   </sodipodi:namedview>
@@ -235,7 +236,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -473,5 +474,99 @@
        d="M 7.9374999,240.80255 H 501.12083"
        id="path916"
        inkscape:connector-curvature="0" />
+    <circle
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path1996"
+       cx="95.828194"
+       cy="256.51889"
+       r="3" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path1996"
+       id="use1998"
+       transform="translate(61.188998)"
+       width="100%"
+       height="100%" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path1996"
+       id="use2000"
+       transform="translate(115.70199)"
+       width="100%"
+       height="100%" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path1996"
+       id="use2002"
+       transform="translate(164.268)"
+       width="100%"
+       height="100%" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path1996"
+       id="use2004"
+       transform="translate(227.36402,15.71635)"
+       width="100%"
+       height="100%" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path1996"
+       id="use2006"
+       transform="translate(227.36402,-15.71634)"
+       width="100%"
+       height="100%" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path1996"
+       id="use2008"
+       transform="translate(280.42098)"
+       width="100%"
+       height="100%" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path1996"
+       id="use2010"
+       transform="translate(311.015)"
+       width="100%"
+       height="100%" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path1996"
+       id="use2012"
+       transform="translate(338.27198)"
+       width="100%"
+       height="100%" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path1996"
+       id="use2014"
+       transform="translate(362.63984)"
+       width="100%"
+       height="100%" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path1996"
+       id="use2016"
+       transform="translate(394.10302,15.71635)"
+       width="100%"
+       height="100%" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#path1996"
+       id="use2018"
+       transform="translate(394.10302,-15.71634)"
+       width="100%"
+       height="100%" />
   </g>
 </svg>
