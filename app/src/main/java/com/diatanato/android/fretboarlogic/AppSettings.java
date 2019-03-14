@@ -39,4 +39,11 @@ public class AppSettings
     {
         return true;
     }
+
+    /** Проигрывание нот. */
+
+    public boolean sound()
+    {
+        return false;
+    }
 }

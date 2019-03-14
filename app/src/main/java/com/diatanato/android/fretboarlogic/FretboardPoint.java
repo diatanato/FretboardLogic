@@ -49,10 +49,17 @@ public class FretboardPoint extends ViewGroup
         return mNote;
     }
 
-    /** Устанавливаем видимость текста в точке. */
+    /** Устанавливает видимость названия ноты. */
 
     public void setTextVisibility(int visibility)
     {
         mText.setVisibility(visibility);
+    }
+
+    /** Отзеркаливает название ноты. */
+
+    public void setReverse(boolean reverse)
+    {
+        mText.setScaleX(reverse ? -1 : 1);
     }
 }

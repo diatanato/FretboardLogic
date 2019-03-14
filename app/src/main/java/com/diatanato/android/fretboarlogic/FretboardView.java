@@ -97,11 +97,8 @@ public class FretboardView extends RelativeLayout
 
         point.setLayoutParams(params);
         point.setBackground(getPointBackground(background));
+        point.setReverse(settings.reverse());
 
-        if (settings.reverse())
-        {
-            point.setScaleX(SCALE_REVERS);
-        }
         addView(point);
         return point;
     }
