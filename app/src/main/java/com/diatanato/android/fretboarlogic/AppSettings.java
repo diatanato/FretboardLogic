@@ -40,6 +40,13 @@ public class AppSettings
         return true;
     }
 
+    /** Масштабирование грифа. */
+
+    public boolean zoom()
+    {
+        return true;
+    }
+
     /** Проигрывание нот. */
 
     public boolean sound()
