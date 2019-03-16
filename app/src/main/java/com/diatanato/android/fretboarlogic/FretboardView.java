@@ -113,7 +113,7 @@ public class FretboardView extends RelativeLayout
         int pointsize = 32;
 
         float left = getMeasuredWidth()  * specs.getFretPadding();
-        float top  = getMeasuredHeight() * specs.getStringPadding();
+        float top  = getMeasuredHeight() * specs.getStringStep();
 
         float lastFretSize    = getMeasuredWidth() * specs.getFretSize();
         float currentFretSize = 0;

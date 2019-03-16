@@ -8,7 +8,6 @@ public class FretboardSpecs
     private final float mFretSize;
     private final float mFretPadding;
     private final float mStringStep;
-    private final float mStringPadding;
 
     public FretboardSpecs()
     {
@@ -17,9 +16,7 @@ public class FretboardSpecs
         mFretStep      = 0.943F;
         mFretSize      = 0.0762F;
         mFretPadding   = 0.0170F;
-
-        mStringStep    = 0.129F;
-        mStringPadding = 0.1838F;
+        mStringStep    = 0.144F;
     }
 
     /** Возвращает коэффициент уменьшения ладов. */
@@ -48,12 +45,5 @@ public class FretboardSpecs
     public float getStringStep()
     {
         return mStringStep;
-    }
-
-    /** Возвращает смещение до первой струны. */
-
-    public float getStringPadding()
-    {
-        return mStringPadding; //TODO: одинаковое смещение сверху и снизу
     }
 }
