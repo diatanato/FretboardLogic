@@ -52,7 +52,14 @@ public class Octave
     @NoteIndex
     public final int getIntervalNote(@NoteIndex int note, int interval)
     {
-        return (note + interval) % 12;
+        return (note + interval) % mNotes.size();
+    }
+
+    /** Узнаем октаву через указанный интервал (смещение). */
+
+    public final int getIntervalOctave(@NoteIndex int note, int octave, int interval)
+    {
+        return octave + (note + interval) / mNotes.size();
     }
 
     /** Основные ноты и полутона с указанными знаками альтерации. */

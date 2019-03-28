@@ -1,8 +1,11 @@
 package com.diatanato.android.fretboarlogic.instruments;
 
+import android.support.annotation.NonNull;
+
 import com.diatanato.android.fretboarlogic.AppSettings;
 import com.diatanato.android.fretboarlogic.FretboardNote;
 import com.diatanato.android.fretboarlogic.Fretboard;
+import com.diatanato.android.fretboarlogic.Note;
 import com.diatanato.android.fretboarlogic.Octave;
 import com.diatanato.android.fretboarlogic.Octave.NoteIndex;
 
@@ -14,8 +17,8 @@ public abstract class Instrument
     private final static Random mRandom = new Random();
     private final static Octave mOctave = Octave.getInstance();
 
-    protected Fretboard mFretboard;
-    protected List<InstrumentString> mTuning;
+    protected List<Note> mTuning;
+    protected Fretboard  mFretboard;
 
     /** Генератор случайных чисел в указанных пределах. */
 
@@ -31,25 +34,30 @@ public abstract class Instrument
         return mFretboard;
     }
 
-    /** Получаем индекс ноты на струне с учетом настройки инструмента. */
+    /** Возвращает ноту на струне с учетом настройки инструмента. */
 
-    @NoteIndex
-    public int getNote(int string, int fret)
+    @NonNull
+    public Note getNote(int string, int fret)
     {
         if (string < mTuning.size())
         {
-            return mOctave.getIntervalNote(mTuning.get(string).getNote(), fret);
+            Note note = mTuning.get(string);
+
+            return new Note(
+                mOctave.getIntervalNote(note.getNoteIndex(), fret),
+                mOctave.getIntervalOctave(note.getNoteIndex(), note.getOctave(), fret)
+            );
         }
         throw new IllegalArgumentException();
     }
 
-    /** Получаем случайную ноту на грифе. */
+    /** Возвращает случайную ноту на грифе. */
 
     public FretboardNote getRandomNote(AppSettings settings)
     {
-        int note;
-        int fret;
-        int string;
+        Note note;
+        int  fret;
+        int  string;
 
         //TODO: игнорировать отключенные струны снизу и сверху. в идеале игнорировать все отключенные струны
 
@@ -59,7 +67,7 @@ public abstract class Instrument
             string = getRandom(0, mTuning.size());
 
             //проверяем, что струна включена в настройках
-            if (mTuning.get(string).isActivated())
+            if (settings.isStringActivated(string))
             {
                 fret = getRandom(
                     Math.max(mFretboard.getMinFret(), settings.minFret()),
@@ -68,9 +76,9 @@ public abstract class Instrument
                 note = getNote(string, fret);
 
                 //проверяем, что выбранная нота доступна
-                if (mOctave.getNotes(settings.alteration()).contains(note))
+                if (mOctave.getNotes(settings.alteration()).contains(note.getNoteIndex()))
                 {
-                    return new FretboardNote(note, settings.alteration(), fret, string);
+                    return new FretboardNote(note.getNoteIndex(), note.getOctave(), settings.alteration(), string, fret);
                 }
             }
         }

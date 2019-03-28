@@ -33,6 +33,13 @@ public class AppSettings
         return ALTERATION_NONE;
     }
 
+    /** Возможность отображения нот на струне. */
+
+    public boolean isStringActivated(int string)
+    {
+        return true;
+    }
+
     /** Ориентация грифа под левую/правую руку. */
 
     public boolean reverse()
