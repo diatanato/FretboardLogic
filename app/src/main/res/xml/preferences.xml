@@ -1,0 +1,21 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/pref_alteration_titles"
+        android:entryValues="@array/pref_alteration_values"
+        android:key="alteration"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_alteration_title" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="zoom"
+        android:title="@string/pref_zoom_title" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="reverse"
+        android:title="@string/pref_reverse_title" />
+
+</PreferenceScreen>

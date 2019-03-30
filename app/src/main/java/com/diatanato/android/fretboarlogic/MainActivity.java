@@ -4,10 +4,13 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.diatanato.android.fretboarlogic.settings.SettingsActivity;
 
 import java.util.Calendar;
 
@@ -41,6 +44,10 @@ public class MainActivity extends AppCompatActivity
         {
             zoom();
             setPoint();
+        });
+        findViewById(R.id.settings).setOnClickListener(view ->
+        {
+            startActivity(new Intent(this, SettingsActivity.class));
         });
     }
 

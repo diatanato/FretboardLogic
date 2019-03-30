@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">FretboarLogic</string>
+    <string name="settings">Настройки</string>
+
+    <!-- Preferences -->
+    <string name="pref_reverse_title">Под левую руку</string>
+    <string name="pref_zoom_title">Увеличить</string>
+
+    <string name="pref_alteration_title">Знаки альтерации</string>
+    <string-array name="pref_alteration_titles">
+        <item>Нет</item>
+        <item>Диез</item>
+        <item>Бемоль</item>
+    </string-array>
+    <string-array name="pref_alteration_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>
