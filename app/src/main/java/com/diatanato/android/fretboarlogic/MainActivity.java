@@ -5,9 +5,11 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.diatanato.android.fretboarlogic.settings.SettingsActivity;
@@ -18,6 +20,8 @@ public class MainActivity extends AppCompatActivity
 {
     private FretboardPoint mPoint;
     private FretboardView  mFretboard;
+
+    private LinearLayout   mBottomPanel;
 
     private TextView       mCorrect;
     private TextView       mIncorrect;
@@ -49,14 +53,15 @@ public class MainActivity extends AppCompatActivity
         {
             startActivity(new Intent(this, SettingsActivity.class));
         });
+        mBottomPanel = findViewById(R.id.bottompanel);
     }
 
-    public void onClick(View param)
+    public synchronized void onClick(View param)
     {
+        param.setEnabled(false);
+
         if (mPoint.getNote().getNote() == Integer.parseInt(param.getTag().toString()))
         {
-            //TODO: нужна блокировака кнопки на время обработки правильного ответа
-
             mCorrectCount += 1;
             mCorrect.setText(String.valueOf(mCorrectCount));
             animation(mCorrect);
@@ -84,6 +89,8 @@ public class MainActivity extends AppCompatActivity
             mIncorrectCount += 1;
             mIncorrect.setText(String.valueOf(mIncorrectCount));
             animation(mIncorrect);
+
+            //TODO: меняем цвет кнопки на красныы
         }
     }
 
@@ -122,11 +129,16 @@ public class MainActivity extends AppCompatActivity
 
     private void setPoint()
     {
+        mTime = getCurrentTime();
+
         mFretboard.removeView(mPoint);
         mPoint = mFretboard.addRandomPoint(mSettings, FretboardView.POINT_BLUE);
         mPoint.setTextVisibility(View.INVISIBLE);
 
-        mTime = getCurrentTime();
+        for (int i = 0; i < mBottomPanel.getChildCount(); i++)
+        {
+            mBottomPanel.getChildAt(i).setEnabled(true);
+        }
     }
 
     /** Возвращает текущее время в миллисекундах. */

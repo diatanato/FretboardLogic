@@ -31,23 +31,30 @@
 
         <TextView
             android:id="@+id/correct"
-            android:layout_width="45dp"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/stroke_green"
+            android:gravity="center"
             android:text="0"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
+            android:textColor="#26a65b"
             android:textSize="18sp"
-            tools:text="0000" />
+            tools:text="000" />
 
         <TextView
             android:id="@+id/incorrect"
-            android:layout_width="45dp"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/stroke_red"
+            android:gravity="center"
             android:text="0"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
+            android:textColor="#f22613"
             android:textSize="18sp"
-            tools:text="0000" />
+            tools:text="000" />
 
         <TextView
             android:id="@+id/speed"
@@ -77,6 +84,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/bottompanel"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar_height"
         android:gravity="center_horizontal"
@@ -91,6 +99,7 @@
             android:id="@+id/button5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:onClick="onClick"
             android:tag="0"
             android:text="C" />
@@ -99,6 +108,7 @@
             android:id="@+id/button4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:onClick="onClick"
             android:tag="2"
             android:text="D" />
@@ -107,6 +117,7 @@
             android:id="@+id/button3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:onClick="onClick"
             android:tag="4"
             android:text="E" />
@@ -115,6 +126,7 @@
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:onClick="onClick"
             android:tag="5"
             android:text="F" />
@@ -123,6 +135,7 @@
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:onClick="onClick"
             android:tag="7"
             android:text="G" />
@@ -131,6 +144,7 @@
             android:id="@+id/button7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:onClick="onClick"
             android:tag="9"
             android:text="A" />
@@ -139,6 +153,7 @@
             android:id="@+id/button8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:onClick="onClick"
             android:tag="11"
             android:text="B" />
