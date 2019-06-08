@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">FretboarLogic</string>
     <string name="settings">Настройки</string>
+    <string name="statistic">Статистика</string>>
 
     <!-- Preferences -->
     <string name="pref_reverse_title">Под левую руку</string>

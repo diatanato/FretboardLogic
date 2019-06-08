@@ -21,6 +21,7 @@
         android:id="@+id/apppanel"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar_height"
+        android:clipToPadding="false"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="8dp"
@@ -71,6 +72,15 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/statistic"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:contentDescription="@string/statistic"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/statistic" />
 
         <ImageView
             android:id="@+id/settings"

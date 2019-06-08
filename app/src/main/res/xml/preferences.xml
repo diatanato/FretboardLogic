@@ -1,6 +1,35 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.diatanato.android.fretboarlogic.settings.preferences.StringPreference
+    <PreferenceScreen
+        android:summary="EBGDAE"
+        android:title="Строй">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="string0"
+            android:title="1 E4" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="string1"
+            android:title="2 B3" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="string2"
+            android:title="3 G3" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="string4"
+            android:title="4 D3" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="string4"
+            android:title="5 A2" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="string5"
+            android:title="6 E2" />
+    </PreferenceScreen>
+
+    <!--<com.diatanato.android.fretboarlogic.settings.preferences.StringPreference
         android:defaultValue="0"
         android:entries="@array/pref_alteration_titles"
         android:entryValues="@array/pref_alteration_values"
@@ -8,6 +37,11 @@
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
         android:title="@string/pref_alteration_title" />
+
+    <com.diatanato.android.fretboarlogic.settings.preferences.InstrumentPreference
+        android:defaultValue="0"
+        android:key="key"
+        android:title="@string/pref_alteration_title" />-->
 
     <ListPreference
         android:defaultValue="0"
