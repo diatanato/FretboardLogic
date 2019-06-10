@@ -4,8 +4,11 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,7 +34,7 @@ public class MainActivity extends AppCompatActivity
     private int            mCorrectCount;
     private int            mIncorrectCount;
 
-    private AppSettings    mSettings = new AppSettings();
+    private AppSettings    mSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, SettingsActivity.class));
         });
         mBottomPanel = findViewById(R.id.bottompanel);
+        mSettings    = new AppSettings(this);
     }
 
     public synchronized void onClick(View param)

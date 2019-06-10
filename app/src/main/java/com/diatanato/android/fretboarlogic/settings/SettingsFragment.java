@@ -5,14 +5,13 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
 
+import com.diatanato.android.fretboarlogic.AppSettings;
+import com.diatanato.android.fretboarlogic.Octave;
 import com.diatanato.android.fretboarlogic.R;
+import com.diatanato.android.fretboarlogic.settings.preferences.StringPreference;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    public static final String KEY_PREFERENCE_ALTERATION = "alteration";
-    public static final String KEY_PREFERENCE_INSTRUMENT = "instrument";
-
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -21,8 +20,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         SharedPreferences preferences = getPreferenceScreen().getSharedPreferences();
 
-        onSharedPreferenceChanged(preferences, KEY_PREFERENCE_ALTERATION);
-        onSharedPreferenceChanged(preferences, KEY_PREFERENCE_INSTRUMENT);
+        onSharedPreferenceChanged(preferences, AppSettings.KEY_PREFERENCE_ALTERATION);
+        onSharedPreferenceChanged(preferences, AppSettings.KEY_PREFERENCE_TUNINGS);
     }
 
     @Override
@@ -42,17 +41,24 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key)
     {
-        if (key.equals(KEY_PREFERENCE_ALTERATION))
+        if (key.equals(AppSettings.KEY_PREFERENCE_ALTERATION))
         {
             ListPreference preference = (ListPreference)findPreference(key);
             preference.setSummary(preference.getEntry());
         }
-        if (key.equals(KEY_PREFERENCE_INSTRUMENT))
+        if (key.equals(AppSettings.KEY_PREFERENCE_TUNINGS))
         {
-            for (int i = 6; i < 10; i++)
+            //TODO: берем ALTERATION из настроек
+            //TODO: берем количество струн из инструмента
+
+            StringBuilder builder = new StringBuilder(6);
+
+            for (int i = 0; i < 6; i++)
             {
-                //findPreference(key).;
+                StringPreference preference = (StringPreference)findPreference("string" + i);
+                builder.append(Octave.getInstance().getNoteName(preference.getNote().getNoteIndex(), Octave.ALTERATION_FLAT));
             }
+            findPreference(key).setSummary(builder.toString());
         }
     }
 }
