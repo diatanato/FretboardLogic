@@ -4,17 +4,14 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.diatanato.android.fretboarlogic.settings.Settings;
 import com.diatanato.android.fretboarlogic.settings.SettingsActivity;
 
 import java.util.Calendar;
@@ -34,7 +31,7 @@ public class MainActivity extends AppCompatActivity
     private int            mCorrectCount;
     private int            mIncorrectCount;
 
-    private AppSettings    mSettings;
+    private Settings       mSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,7 +46,6 @@ public class MainActivity extends AppCompatActivity
         mFretboard = findViewById(R.id.fretboard);
         mFretboard.setOnClickListener(view ->
         {
-            zoom();
             setPoint();
         });
         findViewById(R.id.settings).setOnClickListener(view ->
@@ -57,7 +53,14 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, SettingsActivity.class));
         });
         mBottomPanel = findViewById(R.id.bottompanel);
-        mSettings    = new AppSettings(this);
+        mSettings    = new Settings(this);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        update();
     }
 
     public synchronized void onClick(View param)
@@ -94,7 +97,7 @@ public class MainActivity extends AppCompatActivity
             mIncorrect.setText(String.valueOf(mIncorrectCount));
             animation(mIncorrect);
 
-            //TODO: меняем цвет кнопки на красныы
+            //TODO: меняем цвет кнопки на красный
         }
     }
 
@@ -119,14 +122,19 @@ public class MainActivity extends AppCompatActivity
         animator.start();
     }
 
-    /** Масштабирует гриф с учетом используемых ладов. */
+    /** Устанавливает гриф с учетом настроек. */
 
-    private void zoom()
+    private void update()
     {
         if (mSettings.zoom())
         {
             //TODO: масштабирование грифа
         }
+        if (mPoint != null)
+        {
+            setPoint();
+        }
+        mFretboard.setScaleX(mSettings.reverse() ? -1 : 1);
     }
 
     /** Устанавливает точку на грифе. */

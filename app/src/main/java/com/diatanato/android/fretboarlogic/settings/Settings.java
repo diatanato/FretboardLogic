@@ -1,4 +1,4 @@
-package com.diatanato.android.fretboarlogic;
+package com.diatanato.android.fretboarlogic.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,18 +7,19 @@ import android.preference.PreferenceManager;
 
 import static com.diatanato.android.fretboarlogic.Octave.*;
 
-public class AppSettings implements OnSharedPreferenceChangeListener
+public class Settings implements OnSharedPreferenceChangeListener
 {
     public static final String KEY_PREFERENCE_ALTERATION = "alteration";
     public static final String KEY_PREFERENCE_INSTRUMENT = "instrument";
-    public static final String KEY_PREFERENCE_MAX_FRET   = "max_fret";
-    public static final String KEY_PREFERENCE_MIN_FRET   = "min_fret";
+    public static final String KEY_PREFERENCE_MAX_FRET   = "max";
+    public static final String KEY_PREFERENCE_MIN_FRET   = "min";
+    public static final String KEY_PREFERENCE_STRING     = "string";
     public static final String KEY_PREFERENCE_REVERSE    = "reverse";
     public static final String KEY_PREFERENCE_SOUND      = "sound";
-    public static final String KEY_PREFERENCE_TUNINGS    = "tunings";
+    public static final String KEY_PREFERENCE_TUNING     = "tuning";
     public static final String KEY_PREFERENCE_ZOOM       = "zoom";
 
-    public AppSettings(Context context)
+    public Settings(Context context)
     {
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -26,8 +27,9 @@ public class AppSettings implements OnSharedPreferenceChangeListener
 
         //загружаем настройки
 
-        onSharedPreferenceChanged(preference, KEY_PREFERENCE_ALTERATION);
-        onSharedPreferenceChanged(preference, KEY_PREFERENCE_TUNINGS);
+        onSharedPreferenceChanged(preference, KEY_PREFERENCE_REVERSE);
+        onSharedPreferenceChanged(preference, KEY_PREFERENCE_MIN_FRET);
+        onSharedPreferenceChanged(preference, KEY_PREFERENCE_MAX_FRET);
     }
 
     /** Индекс текущего инструмента. */
@@ -41,15 +43,17 @@ public class AppSettings implements OnSharedPreferenceChangeListener
 
     public int minFret()
     {
-        return 0;
+        return mMin;
     }
+    private int mMin;
 
     /** Максимальный лад для генерации случайных нот. */
 
     public int maxFret()
     {
-        return 24;
+        return mMax;
     }
+    private int mMax;
 
     /** Используемые знаки альтерации. */
 
@@ -70,15 +74,17 @@ public class AppSettings implements OnSharedPreferenceChangeListener
 
     public boolean reverse()
     {
-        return true;
+        return mReverse;
     }
+    private boolean mReverse;
 
     /** Масштабирование грифа. */
 
     public boolean zoom()
     {
-        return true;
+        return mZoom;
     }
+    private boolean mZoom;
 
     /** Проигрывание нот. */
 
@@ -87,16 +93,25 @@ public class AppSettings implements OnSharedPreferenceChangeListener
         return false;
     }
 
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key)
     {
         if (key.equals(KEY_PREFERENCE_REVERSE))
         {
-            //reverse = preferences.getBoolean(key, false);
+            mReverse = preferences.getBoolean(key, false);
+        }
+        if (key.equals(KEY_PREFERENCE_MIN_FRET))
+        {
+            mMin = preferences.getInt(key, 0);
+        }
+        if (key.equals(KEY_PREFERENCE_MAX_FRET))
+        {
+            mMax = preferences.getInt(key, 3);
         }
         if (key.equals(KEY_PREFERENCE_ZOOM))
         {
-            //zoom = preferences.getBoolean(key, false);
+            mZoom = preferences.getBoolean(key, false);
         }
     }
 }

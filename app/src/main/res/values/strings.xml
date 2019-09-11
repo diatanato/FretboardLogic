@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">FretboarLogic</string>
     <string name="settings">Настройки</string>
+    <string name="tuning">Строй</string>
     <string name="statistic">Статистика</string>>
 
     <!-- Preferences -->
     <string name="pref_reverse_title">Под левую руку</string>
     <string name="pref_zoom_title">Увеличить</string>
+    <string name="pref_min_title">Первый лад</string>
+    <string name="pref_max_title">Последний лад</string>
 
     <string name="pref_alteration_title">Знаки альтерации</string>
     <string-array name="pref_alteration_titles">

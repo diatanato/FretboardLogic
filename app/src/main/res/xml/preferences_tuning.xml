@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Струны">
+        <com.diatanato.android.fretboarlogic.settings.preferences.StringPreference
+            android:key="string0"
+            android:title="1" />
+        <com.diatanato.android.fretboarlogic.settings.preferences.StringPreference
+            android:key="string1"
+            android:title="2" />
+        <com.diatanato.android.fretboarlogic.settings.preferences.StringPreference
+            android:key="string2"
+            android:title="3" />
+        <com.diatanato.android.fretboarlogic.settings.preferences.StringPreference
+            android:key="string3"
+            android:title="4" />
+        <com.diatanato.android.fretboarlogic.settings.preferences.StringPreference
+            android:key="string4"
+            android:title="5" />
+        <com.diatanato.android.fretboarlogic.settings.preferences.StringPreference
+            android:key="string5"
+            android:title="6" />
+    </PreferenceCategory>
+</PreferenceScreen>

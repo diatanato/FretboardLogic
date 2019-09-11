@@ -1,27 +1,34 @@
 package com.diatanato.android.fretboarlogic.settings;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
 
-import com.diatanato.android.fretboarlogic.AppSettings;
-import com.diatanato.android.fretboarlogic.Octave;
 import com.diatanato.android.fretboarlogic.R;
-import com.diatanato.android.fretboarlogic.settings.preferences.StringPreference;
+import com.diatanato.android.fretboarlogic.settings.preferences.NumberPickerPreference;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener
 {
+    public static final int SETTINGS_TUNING_REQUEST = 1;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
+        findPreference("tuning").setOnPreferenceClickListener(preference ->
+        {
+            Intent intent = new Intent(getActivity(), SettingsTuningActivity.class);
+            startActivityForResult(intent, SETTINGS_TUNING_REQUEST);
+            return true;
+        });
         SharedPreferences preferences = getPreferenceScreen().getSharedPreferences();
 
-        onSharedPreferenceChanged(preferences, AppSettings.KEY_PREFERENCE_ALTERATION);
-        onSharedPreferenceChanged(preferences, AppSettings.KEY_PREFERENCE_TUNINGS);
+        onSharedPreferenceChanged(preferences, Settings.KEY_PREFERENCE_MIN_FRET);
+        onSharedPreferenceChanged(preferences, Settings.KEY_PREFERENCE_MAX_FRET);
     }
 
     @Override
@@ -39,26 +46,27 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == SETTINGS_TUNING_REQUEST)
+        {
+            if (resultCode == Activity.RESULT_OK)
+            {
+                findPreference(Settings.KEY_PREFERENCE_TUNING).setSummary(data.getStringExtra("tuning"));
+            }
+        }
+    }
+
+    @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key)
     {
-        if (key.equals(AppSettings.KEY_PREFERENCE_ALTERATION))
+        if (key.equals(Settings.KEY_PREFERENCE_MIN_FRET))
         {
-            ListPreference preference = (ListPreference)findPreference(key);
-            preference.setSummary(preference.getEntry());
+            ((NumberPickerPreference)findPreference(Settings.KEY_PREFERENCE_MAX_FRET)).setMin(preferences.getInt(key, 0));
         }
-        if (key.equals(AppSettings.KEY_PREFERENCE_TUNINGS))
+        if (key.equals(Settings.KEY_PREFERENCE_MAX_FRET))
         {
-            //TODO: берем ALTERATION из настроек
-            //TODO: берем количество струн из инструмента
-
-            StringBuilder builder = new StringBuilder(6);
-
-            for (int i = 0; i < 6; i++)
-            {
-                StringPreference preference = (StringPreference)findPreference("string" + i);
-                builder.append(Octave.getInstance().getNoteName(preference.getNote().getNoteIndex(), Octave.ALTERATION_FLAT));
-            }
-            findPreference(key).setSummary(builder.toString());
+            ((NumberPickerPreference)findPreference(Settings.KEY_PREFERENCE_MIN_FRET)).setMax(preferences.getInt(key, 0));
         }
     }
 }

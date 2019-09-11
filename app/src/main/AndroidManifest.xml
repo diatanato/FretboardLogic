@@ -12,7 +12,11 @@
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/settings"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".settings.SettingsTuningActivity"
+            android:label="@string/tuning"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"

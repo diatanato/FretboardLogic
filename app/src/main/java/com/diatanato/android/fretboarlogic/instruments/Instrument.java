@@ -2,12 +2,12 @@ package com.diatanato.android.fretboarlogic.instruments;
 
 import android.support.annotation.NonNull;
 
-import com.diatanato.android.fretboarlogic.AppSettings;
 import com.diatanato.android.fretboarlogic.FretboardNote;
 import com.diatanato.android.fretboarlogic.Fretboard;
 import com.diatanato.android.fretboarlogic.Note;
 import com.diatanato.android.fretboarlogic.Octave;
-import com.diatanato.android.fretboarlogic.Octave.NoteIndex;
+
+import com.diatanato.android.fretboarlogic.settings.Settings;
 
 import java.util.List;
 import java.util.Random;
@@ -53,7 +53,7 @@ public abstract class Instrument
 
     /** Возвращает случайную ноту на грифе. */
 
-    public FretboardNote getRandomNote(AppSettings settings)
+    public FretboardNote getRandomNote(Settings settings)
     {
         Note note;
         int  fret;

@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.diatanato.android.fretboarlogic.instruments.Guitar;
 import com.diatanato.android.fretboarlogic.instruments.Instrument;
+import com.diatanato.android.fretboarlogic.settings.Settings;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -78,14 +79,14 @@ public class FretboardView extends RelativeLayout
 
     /** Добавляет случайную ноту на гриф. */
 
-    public FretboardPoint addRandomPoint(AppSettings settings, @PointBackground int background)
+    public FretboardPoint addRandomPoint(Settings settings, @PointBackground int background)
     {
         return addPoint(settings, mInstrument.getRandomNote(settings), background);
     }
 
     /** Добавляет ноту на гриф. */
 
-    public FretboardPoint addPoint(AppSettings settings, FretboardNote note, @PointBackground int background)
+    public FretboardPoint addPoint(Settings settings, FretboardNote note, @PointBackground int background)
     {
         Rect position = getPointPosition(note.getFret(), note.getString());
 
