@@ -1,8 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -12,6 +10,21 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="PointRed">
+        <item name="circle_outer">#f22613</item>
+        <item name="circle_inner">#ec644b</item>
+    </style>
+
+    <style name="PointBlue">
+        <item name="circle_outer">#4183d7</item>
+        <item name="circle_inner">#81cfe0</item>
+    </style>
+
+    <style name="PointGreen">
+        <item name="circle_outer">#26a65b</item>
+        <item name="circle_inner">#66cc99</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

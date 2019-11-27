@@ -1,4 +1,4 @@
-package com.diatanato.android.fretboarlogic;
+package com.diatanato.android.fretboarlogic.fretboard;
 
 import android.graphics.drawable.Drawable;
 

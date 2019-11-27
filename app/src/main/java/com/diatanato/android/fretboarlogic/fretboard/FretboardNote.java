@@ -1,4 +1,4 @@
-package com.diatanato.android.fretboarlogic;
+package com.diatanato.android.fretboarlogic.fretboard;
 
 import static com.diatanato.android.fretboarlogic.Octave.NoteAlteration;
 import static com.diatanato.android.fretboarlogic.Octave.NoteIndex;

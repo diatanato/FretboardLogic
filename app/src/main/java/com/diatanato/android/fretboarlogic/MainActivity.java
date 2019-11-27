@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.diatanato.android.fretboarlogic.fretboard.FretboardPoint;
+import com.diatanato.android.fretboarlogic.fretboard.FretboardView;
 import com.diatanato.android.fretboarlogic.settings.Settings;
 import com.diatanato.android.fretboarlogic.settings.SettingsActivity;
 

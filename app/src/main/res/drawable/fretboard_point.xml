@@ -4,10 +4,10 @@
     android:viewportHeight="32"
     android:viewportWidth="32">
     <path
-        android:fillColor="#4183d7"
+        android:fillColor="?attr/circle_outer"
         android:pathData="m32,16a16,16 0,0 1,-16 16,16 16,0 0,1 -16,-16 16,16 0,0 1,16 -16,16 16,0 0,1 16,16z" />
     <path
-        android:fillColor="#81cfe0"
+        android:fillColor="?attr/circle_inner"
         android:pathData="M29,16A13,13 0,0 1,16 29,13 13,0 0,1 3,16 13,13 0,0 1,16 3,13 13,0 0,1 29,16Z" />
     <path
         android:fillColor="#ffffff"

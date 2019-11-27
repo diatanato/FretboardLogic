@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <declare-styleable name="FretboardPoint">
+        <attr name="circle_outer" format="color" />
+        <attr name="circle_inner" format="color" />
+    </declare-styleable>
+</resources>

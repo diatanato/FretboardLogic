@@ -1,12 +1,13 @@
-package com.diatanato.android.fretboarlogic;
+package com.diatanato.android.fretboarlogic.fretboard;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.diatanato.android.fretboarlogic.Octave;
 
 public class FretboardPoint extends ViewGroup
 {

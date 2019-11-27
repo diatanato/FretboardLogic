@@ -1,4 +1,4 @@
-package com.diatanato.android.fretboarlogic;
+package com.diatanato.android.fretboarlogic.fretboard;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -6,10 +6,13 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.view.ContextThemeWrapper;
 import android.widget.RelativeLayout;
 
+import com.diatanato.android.fretboarlogic.R;
 import com.diatanato.android.fretboarlogic.instruments.Guitar;
 import com.diatanato.android.fretboarlogic.instruments.Instrument;
 import com.diatanato.android.fretboarlogic.settings.Settings;
@@ -143,17 +146,24 @@ public class FretboardView extends RelativeLayout
     @NonNull
     private Drawable getPointBackground(@PointBackground int background)
     {
+        ContextThemeWrapper wrapper;
+
         switch (background)
         {
+            case POINT_RED:
+                wrapper = new ContextThemeWrapper(getContext(), R.style.PointRed);
+                break;
+            case POINT_GREEN:
+                wrapper = new ContextThemeWrapper(getContext(), R.style.PointGreen);
+                break;
+            case POINT_BLUE:
+                wrapper = new ContextThemeWrapper(getContext(), R.style.PointBlue);
+                break;
             case POINT_CROSS:
                 return ContextCompat.getDrawable(getContext(), R.drawable.point_cross);
-            case POINT_RED:
-                return ContextCompat.getDrawable(getContext(), R.drawable.point_red);
-            case POINT_GREEN:
-                return ContextCompat.getDrawable(getContext(), R.drawable.point_green);
-            case POINT_BLUE:
-                return ContextCompat.getDrawable(getContext(), R.drawable.point_blue);
+            default:
+                throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
+        return VectorDrawableCompat.create(getResources(), R.drawable.fretboard_point, wrapper.getTheme());
     }
 }

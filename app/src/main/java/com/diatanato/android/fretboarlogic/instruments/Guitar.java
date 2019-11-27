@@ -3,8 +3,8 @@ package com.diatanato.android.fretboarlogic.instruments;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
-import com.diatanato.android.fretboarlogic.Fretboard;
-import com.diatanato.android.fretboarlogic.FretboardSpecs;
+import com.diatanato.android.fretboarlogic.fretboard.Fretboard;
+import com.diatanato.android.fretboarlogic.fretboard.FretboardSpecs;
 import com.diatanato.android.fretboarlogic.Note;
 import com.diatanato.android.fretboarlogic.Octave;
 import com.diatanato.android.fretboarlogic.R;

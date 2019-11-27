@@ -1,4 +1,4 @@
-package com.diatanato.android.fretboarlogic;
+package com.diatanato.android.fretboarlogic.fretboard;
 
 /** Пропорции элементов изображения грифа. */
 
