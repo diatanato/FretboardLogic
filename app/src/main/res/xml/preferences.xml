@@ -1,13 +1,14 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
     <Preference
-        android:key="tuning"
-        android:title="Строй" />
-    <com.diatanato.android.fretboarlogic.settings.preferences.NumberPickerPreference
+        android:key="instrument"
+        android:title="@string/pref_instrument"
+        android:summary="Гитара EADGBE"/>
+    <com.diatanato.android.fretboarlogic.settings.preferences.FretPreference
         android:defaultValue="0"
         android:key="min"
         android:title="@string/pref_min_title" />
-    <com.diatanato.android.fretboarlogic.settings.preferences.NumberPickerPreference
+    <com.diatanato.android.fretboarlogic.settings.preferences.FretPreference
         android:defaultValue="3"
         android:key="max"
         android:title="@string/pref_max_title" />
@@ -18,6 +19,13 @@
         android:key="alteration"
         android:summary="%s"
         android:title="@string/pref_alteration_title" />
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/pref_answer_titles"
+        android:entryValues="@array/pref_answer_values"
+        android:key="answer"
+        android:summary="%s"
+        android:title="@string/pref_answer_title" />
     <SwitchPreference
         android:defaultValue="false"
         android:key="zoom"

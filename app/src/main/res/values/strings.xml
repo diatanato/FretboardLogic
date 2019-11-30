@@ -2,13 +2,35 @@
     <string name="app_name">FretboarLogic</string>
     <string name="settings">Настройки</string>
     <string name="tuning">Строй</string>
-    <string name="statistic">Статистика</string>>
+    <string name="instrument">Инструмент</string>
+    <string name="statistic">Статистика</string>
 
     <!-- Preferences -->
     <string name="pref_reverse_title">Под левую руку</string>
     <string name="pref_zoom_title">Увеличить</string>
     <string name="pref_min_title">Первый лад</string>
     <string name="pref_max_title">Последний лад</string>
+    <string name="pref_strings">Струны</string>>
+
+    <string name="pref_instrument">Инструмент</string>
+    <string-array name="pref_instrument_titles">
+        <item>Гитара</item>
+    </string-array>
+    <string-array name="pref_instrument_values">
+        <item>0</item>
+    </string-array>
+
+    <string name="pref_answer_title">Способ ответа</string>
+    <string-array name="pref_answer_titles">
+        <item>Латинские имена</item>
+        <item>Русские имена</item>
+        <item>Ноты</item>
+    </string-array>
+    <string-array name="pref_answer_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 
     <string name="pref_alteration_title">Знаки альтерации</string>
     <string-array name="pref_alteration_titles">

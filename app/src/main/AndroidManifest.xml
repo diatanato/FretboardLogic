@@ -14,7 +14,7 @@
             android:label="@string/settings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".settings.SettingsTuningActivity"
+            android:name=".settings.SettingsInstrumentActivity"
             android:label="@string/tuning"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

@@ -17,12 +17,12 @@ public class Guitar extends Instrument
     {
         mTuning = Arrays.asList
         (
-            new Note(Octave.E, 4),
-            new Note(Octave.B, 3),
-            new Note(Octave.G, 3),
-            new Note(Octave.D, 3),
-            new Note(Octave.A, 2),
-            new Note(Octave.E, 2)
+            new Note(Octave.E, Octave.OCTAVE_4),
+            new Note(Octave.B, Octave.OCTAVE_3),
+            new Note(Octave.G, Octave.OCTAVE_3),
+            new Note(Octave.D, Octave.OCTAVE_3),
+            new Note(Octave.A, Octave.OCTAVE_2),
+            new Note(Octave.E, Octave.OCTAVE_2)
         );
         mFretboard = new Fretboard(
             ContextCompat.getDrawable(context, R.drawable.fretboard_guitar),

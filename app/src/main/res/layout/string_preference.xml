@@ -10,13 +10,6 @@
     android:paddingStart="16dp"
     android:paddingEnd="16dp">
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:visibility="gone"
-        tools:text="1" />
-
     <TextView
         android:id="@android:id/title"
         android:layout_width="wrap_content"
@@ -24,7 +17,7 @@
         tools:text="1" />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@android:id/summary"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_margin="4dp"
@@ -32,26 +25,25 @@
         android:textColor="@android:color/black"
         tools:text="D4" />
 
-    <View
-        android:id="@+id/string"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:layout_weight="1"
-        android:background="@android:color/black" />
-
-    <ImageView
+    <FrameLayout
         android:id="@+id/play"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:visibility="gone"
-        app:srcCompat="@drawable/ic_play_arrow_black_24dp" />
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <View
+            android:id="@+id/string"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="@android:color/black" />
+    </FrameLayout>
 
     <Switch
-        android:id="@+id/switch3"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:checked="true" />
+        tools:checked="true" />
 
 </LinearLayout>

@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
 import com.diatanato.android.fretboarlogic.R;
-import com.diatanato.android.fretboarlogic.settings.preferences.NumberPickerPreference;
+import com.diatanato.android.fretboarlogic.settings.preferences.FretPreference;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener
 {
@@ -19,9 +19,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        findPreference("tuning").setOnPreferenceClickListener(preference ->
+        findPreference(Settings.KEY_PREFERENCE_INSTRUMENT).setOnPreferenceClickListener(preference ->
         {
-            Intent intent = new Intent(getActivity(), SettingsTuningActivity.class);
+            Intent intent = new Intent(getActivity(), SettingsInstrumentActivity.class);
             startActivityForResult(intent, SETTINGS_TUNING_REQUEST);
             return true;
         });
@@ -52,7 +52,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         {
             if (resultCode == Activity.RESULT_OK)
             {
-                findPreference(Settings.KEY_PREFERENCE_TUNING).setSummary(data.getStringExtra("tuning"));
+                findPreference(Settings.KEY_PREFERENCE_INSTRUMENT).setSummary(data.getStringExtra(SettingsInstrumentActivity.EXTRA_TUNING));
             }
         }
     }
@@ -62,11 +62,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     {
         if (key.equals(Settings.KEY_PREFERENCE_MIN_FRET))
         {
-            ((NumberPickerPreference)findPreference(Settings.KEY_PREFERENCE_MAX_FRET)).setMin(preferences.getInt(key, 0));
+            ((FretPreference)findPreference(Settings.KEY_PREFERENCE_MAX_FRET)).setMin(preferences.getInt(key, 0));
         }
         if (key.equals(Settings.KEY_PREFERENCE_MAX_FRET))
         {
-            ((NumberPickerPreference)findPreference(Settings.KEY_PREFERENCE_MIN_FRET)).setMax(preferences.getInt(key, 0));
+            ((FretPreference)findPreference(Settings.KEY_PREFERENCE_MIN_FRET)).setMax(preferences.getInt(key, 0));
         }
     }
 }

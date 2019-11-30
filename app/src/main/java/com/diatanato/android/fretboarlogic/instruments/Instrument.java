@@ -55,31 +55,21 @@ public abstract class Instrument
 
     public FretboardNote getRandomNote(Settings settings)
     {
-        Note note;
-        int  fret;
-        int  string;
-
-        //TODO: игнорировать отключенные струны снизу и сверху. в идеале игнорировать все отключенные струны
+        //случайным образом выбираем струну из списка доступных
+        int string = settings.strings().get(getRandom(0, settings.strings().size()));
 
         while (true)
         {
-            //случайным образом выбираем струну
-            string = getRandom(0, mTuning.size());
+            int fret = getRandom(
+                Math.max(mFretboard.getMinFret(), settings.minFret()),
+                Math.min(mFretboard.getMaxFret(), settings.maxFret()) + 1);
 
-            //проверяем, что струна включена в настройках
-            if (settings.isStringActivated(string))
+            Note note = getNote(string, fret);
+
+            //проверяем, что выбранная нота доступна
+            if (mOctave.getNotes(settings.alteration()).contains(note.getNoteIndex()))
             {
-                fret = getRandom(
-                    Math.max(mFretboard.getMinFret(), settings.minFret()),
-                    Math.min(mFretboard.getMaxFret(), settings.maxFret()) + 1);
-
-                note = getNote(string, fret);
-
-                //проверяем, что выбранная нота доступна
-                if (mOctave.getNotes(settings.alteration()).contains(note.getNoteIndex()))
-                {
-                    return new FretboardNote(note.getNoteIndex(), note.getOctave(), settings.alteration(), string, fret);
-                }
+                return new FretboardNote(note.getNoteIndex(), note.getOctave(), settings.alteration(), string, fret);
             }
         }
     }

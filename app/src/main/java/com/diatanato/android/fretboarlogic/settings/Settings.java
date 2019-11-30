@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.preference.PreferenceManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.diatanato.android.fretboarlogic.Octave.*;
 
 public class Settings implements OnSharedPreferenceChangeListener
@@ -26,11 +29,22 @@ public class Settings implements OnSharedPreferenceChangeListener
         preference.registerOnSharedPreferenceChangeListener(this);
 
         //загружаем настройки
+        mStrings = new ArrayList<Integer>(10);
 
+        onSharedPreferenceChanged(preference, KEY_PREFERENCE_ZOOM);
+        onSharedPreferenceChanged(preference, KEY_PREFERENCE_STRING);
         onSharedPreferenceChanged(preference, KEY_PREFERENCE_REVERSE);
         onSharedPreferenceChanged(preference, KEY_PREFERENCE_MIN_FRET);
         onSharedPreferenceChanged(preference, KEY_PREFERENCE_MAX_FRET);
     }
+
+    private int mMin;
+    private int mMax;
+
+    private boolean mReverse;
+    private boolean mZoom;
+
+    private List<Integer> mStrings;
 
     /** Индекс текущего инструмента. */
 
@@ -45,7 +59,6 @@ public class Settings implements OnSharedPreferenceChangeListener
     {
         return mMin;
     }
-    private int mMin;
 
     /** Максимальный лад для генерации случайных нот. */
 
@@ -53,7 +66,6 @@ public class Settings implements OnSharedPreferenceChangeListener
     {
         return mMax;
     }
-    private int mMax;
 
     /** Используемые знаки альтерации. */
 
@@ -63,20 +75,12 @@ public class Settings implements OnSharedPreferenceChangeListener
         return ALTERATION_NONE;
     }
 
-    /** Возможность отображения нот на струне. */
-
-    public boolean isStringActivated(int string)
-    {
-        return true;
-    }
-
     /** Ориентация грифа под левую/правую руку. */
 
     public boolean reverse()
     {
         return mReverse;
     }
-    private boolean mReverse;
 
     /** Масштабирование грифа. */
 
@@ -84,7 +88,6 @@ public class Settings implements OnSharedPreferenceChangeListener
     {
         return mZoom;
     }
-    private boolean mZoom;
 
     /** Проигрывание нот. */
 
@@ -93,6 +96,12 @@ public class Settings implements OnSharedPreferenceChangeListener
         return false;
     }
 
+    /** Список активных струн. */
+
+    public List<Integer> strings()
+    {
+        return mStrings;
+    }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key)
@@ -112,6 +121,19 @@ public class Settings implements OnSharedPreferenceChangeListener
         if (key.equals(KEY_PREFERENCE_ZOOM))
         {
             mZoom = preferences.getBoolean(key, false);
+        }
+        if (key.contains(KEY_PREFERENCE_STRING))
+        {
+            mStrings.clear();
+
+            //TODO: количество струн
+            for (int i = 0; i < 6; i++)
+            {
+                if (preferences.getBoolean(Settings.KEY_PREFERENCE_STRING + i, true))
+                {
+                    mStrings.add(i);
+                }
+            }
         }
     }
 }

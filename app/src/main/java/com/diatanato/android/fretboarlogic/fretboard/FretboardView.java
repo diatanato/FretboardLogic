@@ -37,8 +37,6 @@ public class FretboardView extends RelativeLayout
     public final static int POINT_GREEN = 2;
     public final static int POINT_BLUE  = 3;
 
-    public final static int SCALE_REVERS = -1;
-
     //TODO: выбираем инструмент в соответствии с настройками
     private final Instrument mInstrument = new Guitar(getContext());
 
@@ -64,8 +62,6 @@ public class FretboardView extends RelativeLayout
         int w = fretboard.getIntrinsicWidth();
         int h = fretboard.getIntrinsicHeight();
 
-        setScaleX(SCALE_REVERS); //TODO: проверяем settings.reverse()
-
         ((ConstraintLayout.LayoutParams)getLayoutParams()).dimensionRatio =  w + ":" + h;
     }
 
@@ -84,12 +80,12 @@ public class FretboardView extends RelativeLayout
 
     public FretboardPoint addRandomPoint(Settings settings, @PointBackground int background)
     {
-        return addPoint(settings, mInstrument.getRandomNote(settings), background);
+        return addPoint(mInstrument.getRandomNote(settings), background);
     }
 
     /** Добавляет ноту на гриф. */
 
-    public FretboardPoint addPoint(Settings settings, FretboardNote note, @PointBackground int background)
+    public FretboardPoint addPoint(FretboardNote note, @PointBackground int background)
     {
         Rect position = getPointPosition(note.getFret(), note.getString());
 
@@ -101,7 +97,6 @@ public class FretboardView extends RelativeLayout
 
         point.setLayoutParams(params);
         point.setBackground(getPointBackground(background));
-        point.setReverse(settings.reverse());
 
         addView(point);
         return point;

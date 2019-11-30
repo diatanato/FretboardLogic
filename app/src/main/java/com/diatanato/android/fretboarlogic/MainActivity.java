@@ -5,6 +5,7 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,11 +18,12 @@ import com.diatanato.android.fretboarlogic.settings.Settings;
 import com.diatanato.android.fretboarlogic.settings.SettingsActivity;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
 {
     private FretboardPoint mPoint;
-    private FretboardView  mFretboard;
+    private FretboardView mFretboard;
 
     private LinearLayout   mBottomPanel;
 
@@ -41,11 +43,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mSettings  = new Settings(this);
+
         mSpeed     = findViewById(R.id.speed);
         mCorrect   = findViewById(R.id.correct);
         mIncorrect = findViewById(R.id.incorrect);
-
         mFretboard = findViewById(R.id.fretboard);
+
         mFretboard.setOnClickListener(view ->
         {
             setPoint();
@@ -55,7 +59,6 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, SettingsActivity.class));
         });
         mBottomPanel = findViewById(R.id.bottompanel);
-        mSettings    = new Settings(this);
     }
 
     @Override
@@ -65,11 +68,12 @@ public class MainActivity extends AppCompatActivity
         update();
     }
 
-    public synchronized void onClick(View param)
+    public synchronized void onClick(View button)
     {
-        param.setEnabled(false);
+        //TODO: меняем цвет кнопки на красный селектором
+        button.setEnabled(false);
 
-        if (mPoint.getNote().getNote() == Integer.parseInt(param.getTag().toString()))
+        if (mPoint.getNote().getNote() == Integer.parseInt(button.getTag().toString()))
         {
             mCorrectCount += 1;
             mCorrect.setText(String.valueOf(mCorrectCount));
@@ -77,7 +81,7 @@ public class MainActivity extends AppCompatActivity
 
             long time = getCurrentTime() - mTime;
             float speed = (float)time / 1000.0F;
-            mSpeed.setText(String.format("%.2f", speed));
+            mSpeed.setText(String.format(Locale.US, "%.1f", speed));
 
             if (mSettings.sound())
             {
@@ -98,8 +102,6 @@ public class MainActivity extends AppCompatActivity
             mIncorrectCount += 1;
             mIncorrect.setText(String.valueOf(mIncorrectCount));
             animation(mIncorrect);
-
-            //TODO: меняем цвет кнопки на красный
         }
     }
 
@@ -132,21 +134,36 @@ public class MainActivity extends AppCompatActivity
         {
             //TODO: масштабирование грифа
         }
+        if (mSettings.reverse())
+        {
+            if (mFretboard.getX() > 0)
+                mFretboard.setX(mFretboard.getX() * -1);
+            if (mFretboard.getScaleX() > 0)
+                mFretboard.setScaleX(mFretboard.getScaleX() * -1);
+        }
+        else
+        {
+            if (mFretboard.getX() < 0)
+                mFretboard.setX(mFretboard.getX() * -1);
+            if (mFretboard.getScaleX() < 0)
+                mFretboard.setScaleX(mFretboard.getScaleX() * -1);
+        }
         if (mPoint != null)
         {
             setPoint();
         }
-        mFretboard.setScaleX(mSettings.reverse() ? -1 : 1);
     }
 
     /** Устанавливает точку на грифе. */
 
     private void setPoint()
     {
-        mTime = getCurrentTime();
-
         mFretboard.removeView(mPoint);
+
+        mTime  = getCurrentTime();
         mPoint = mFretboard.addRandomPoint(mSettings, FretboardView.POINT_BLUE);
+
+        mPoint.setReverse(mSettings.reverse());
         mPoint.setTextVisibility(View.INVISIBLE);
 
         for (int i = 0; i < mBottomPanel.getChildCount(); i++)

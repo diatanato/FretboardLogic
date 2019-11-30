@@ -6,19 +6,21 @@ import android.os.Bundle;
 
 import com.diatanato.android.fretboarlogic.R;
 
-public class SettingsTuningActivity extends AppCompatActivity {
+public class SettingsInstrumentActivity extends AppCompatActivity
+{
+    public static final String EXTRA_TUNING = "tuning";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings_tuning);
+        setContentView(R.layout.activity_settings_instrument);
 
         setSupportActionBar(findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getFragmentManager().beginTransaction()
-            .replace(R.id.container, new SettingsTuningFragment())
+            .replace(R.id.container, new SettingsInstrumentFragment())
             .commit();
     }
 
@@ -32,10 +34,10 @@ public class SettingsTuningActivity extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        SettingsTuningFragment tuning = (SettingsTuningFragment) getFragmentManager().findFragmentById(R.id.container);
+        SettingsInstrumentFragment tuning = (SettingsInstrumentFragment) getFragmentManager().findFragmentById(R.id.container);
 
         Intent intent = new Intent();
-        intent.putExtra("tuning", tuning.GetTuningString());
+        intent.putExtra(EXTRA_TUNING, tuning.getTuningString());
         setResult(RESULT_OK, intent);
 
         super.onBackPressed();

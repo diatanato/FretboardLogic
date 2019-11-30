@@ -33,6 +33,15 @@ public class Octave
     public final static int AB = 10;
     public final static int B  = 11;
 
+    @IntDef({OCTAVE_1, OCTAVE_2, OCTAVE_3, OCTAVE_4})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface OctaveIndex { }
+
+    public final static int OCTAVE_1 = 1;
+    public final static int OCTAVE_2 = 2;
+    public final static int OCTAVE_3 = 3;
+    public final static int OCTAVE_4 = 4;
+
     @IntDef({ALTERATION_NONE, ALTERATION_SHARP, ALTERATION_FLAT})
     @Retention(RetentionPolicy.SOURCE)
     public @interface NoteAlteration { }
@@ -57,7 +66,8 @@ public class Octave
 
     /** Узнаем октаву через указанный интервал (смещение). */
 
-    public final int getIntervalOctave(@NoteIndex int note, int octave, int interval)
+    @OctaveIndex
+    public final int getIntervalOctave(@NoteIndex int note, @OctaveIndex int octave, int interval)
     {
         return octave + (note + interval) / mNotes.size();
     }
@@ -114,7 +124,22 @@ public class Octave
         throw new IllegalArgumentException();
     }
 
-    /** Текстовое написание основных нот и полутонов в диез. */
+    @NonNull
+    public final String getNoteName(@NoteIndex int note, @OctaveIndex int octave, @NoteAlteration int alteration)
+    {
+        String name = getNoteName(note, alteration);
+
+        switch (octave)
+        {
+            case OCTAVE_1: return name + "1";
+            case OCTAVE_2: return name + "2";
+            case OCTAVE_3: return name + "3";
+            case OCTAVE_4: return name + "4";
+        }
+        throw new IllegalArgumentException();
+    }
+
+    /** Текстовое написание основных нот и полутонов с диез. */
 
     @NonNull
     @SuppressLint("SwitchIntDef")
@@ -131,7 +156,7 @@ public class Octave
         return getRootNoteName(note);
     }
 
-    /** Текстовое написание основных нот и полутонов в бемоль. */
+    /** Текстовое написание основных нот и полутонов с бемоль. */
 
     @NonNull
     @SuppressLint("SwitchIntDef")
