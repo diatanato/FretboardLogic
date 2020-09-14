@@ -1,7 +1,7 @@
 package com.diatanato.android.fretboarlogic.instruments;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 
 import com.diatanato.android.fretboarlogic.fretboard.Fretboard;
 import com.diatanato.android.fretboarlogic.fretboard.FretboardSpecs;
@@ -17,12 +17,12 @@ public class Guitar extends Instrument
     {
         mTuning = Arrays.asList
         (
-            new Note(Octave.E, Octave.OCTAVE_4),
-            new Note(Octave.B, Octave.OCTAVE_3),
-            new Note(Octave.G, Octave.OCTAVE_3),
-            new Note(Octave.D, Octave.OCTAVE_3),
-            new Note(Octave.A, Octave.OCTAVE_2),
-            new Note(Octave.E, Octave.OCTAVE_2)
+            new Note(Note.E, Octave.OCTAVE_4),
+            new Note(Note.B, Octave.OCTAVE_3),
+            new Note(Note.G, Octave.OCTAVE_3),
+            new Note(Note.D, Octave.OCTAVE_3),
+            new Note(Note.A, Octave.OCTAVE_2),
+            new Note(Note.E, Octave.OCTAVE_2)
         );
         mFretboard = new Fretboard(
             ContextCompat.getDrawable(context, R.drawable.fretboard_guitar),

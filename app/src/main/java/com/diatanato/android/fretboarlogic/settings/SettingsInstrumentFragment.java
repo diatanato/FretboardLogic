@@ -1,11 +1,13 @@
 package com.diatanato.android.fretboarlogic.settings;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 
+import com.diatanato.android.fretboarlogic.Note;
 import com.diatanato.android.fretboarlogic.Octave;
 import com.diatanato.android.fretboarlogic.R;
 import com.diatanato.android.fretboarlogic.settings.preferences.StringPreference;
@@ -49,7 +51,7 @@ public class SettingsInstrumentFragment extends PreferenceFragment
         for (int i = 0; i < mCategory.getPreferenceCount(); i++)
         {
             StringPreference preference = (StringPreference)mCategory.getPreference(i);
-            builder.append(Octave.getInstance().getNoteName(preference.getNote().getNoteIndex(), Octave.ALTERATION_FLAT));
+            builder.append(Octave.getNoteName(preference.getNote().getNoteIndex(), Octave.ALTERATION_FLAT));
         }
         return builder.toString();
     }
@@ -69,9 +71,8 @@ public class SettingsInstrumentFragment extends PreferenceFragment
 
             StringPreference preference = new StringPreference(getContext());
             preference.setKey(key);
-            preference.setNote(Octave.E, 1);
-            preference.setTitle(Integer.toString(i + 1));
-
+            preference.setNote(Note.A, 1);
+            preference.setIndex(i + 1);
 
             mCategory.addPreference(preference);
         }

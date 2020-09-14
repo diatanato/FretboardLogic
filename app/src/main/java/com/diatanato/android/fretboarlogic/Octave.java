@@ -1,13 +1,16 @@
 package com.diatanato.android.fretboarlogic;
 
-import android.annotation.SuppressLint;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Arrays;
 import java.util.List;
+
+import com.diatanato.android.fretboarlogic.Note.NoteIndex;
+
+import static com.diatanato.android.fretboarlogic.Note.*;
 
 public class Octave
 {
@@ -15,23 +18,6 @@ public class Octave
 
     private final List<Integer> mNotes;
     private final List<Integer> mRootNotes;
-
-    @IntDef({C, CD, D, DE, E, F, FG, G, GA, A, AB, B})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface NoteIndex { }
-
-    public final static int C  =  0;
-    public final static int CD =  1;
-    public final static int D  =  2;
-    public final static int DE =  3;
-    public final static int E  =  4;
-    public final static int F  =  5;
-    public final static int FG =  6;
-    public final static int G  =  7;
-    public final static int GA =  8;
-    public final static int A  =  9;
-    public final static int AB = 10;
-    public final static int B  = 11;
 
     @IntDef({OCTAVE_1, OCTAVE_2, OCTAVE_3, OCTAVE_4})
     @Retention(RetentionPolicy.SOURCE)
@@ -56,12 +42,28 @@ public class Octave
         mRootNotes = Arrays.asList(C, D, E, F, G, A, B);
     }
 
+    /** Узнаем ноту по ее коду. */
+
+    @NoteIndex
+    public final int getNote(int code)
+    {
+        return code % mNotes.size();
+    }
+
     /** Узнаем ноту через указанный интервал (смещение). */
 
     @NoteIndex
     public final int getIntervalNote(@NoteIndex int note, int interval)
     {
-        return (note + interval) % mNotes.size();
+        return getNote(note + interval);
+    }
+
+    /** Узнаем октаву по коду ноты. */
+
+    @OctaveIndex
+    public final int getOctave(int code)
+    {
+        return code / mNotes.size();
     }
 
     /** Узнаем октаву через указанный интервал (смещение). */
@@ -69,7 +71,14 @@ public class Octave
     @OctaveIndex
     public final int getIntervalOctave(@NoteIndex int note, @OctaveIndex int octave, int interval)
     {
-        return octave + (note + interval) / mNotes.size();
+        return octave + getOctave(note + interval);
+    }
+
+    /** Возвращает код ноты */
+
+    public final int getNoteCode(@NoteIndex int note, @OctaveIndex int octave)
+    {
+        return note + octave * mNotes.size();
     }
 
     /** Основные ноты и полутона с указанными знаками альтерации. */
@@ -110,22 +119,24 @@ public class Octave
     /** Текстовое написание ноты с учетом альтерации. */
 
     @NonNull
-    public final String getNoteName(@NoteIndex int note, @NoteAlteration int alteration)
+    public static String getNoteName(@NoteIndex int note, @NoteAlteration int alteration)
     {
         switch (alteration)
         {
             case ALTERATION_SHARP:
-                return getNoteNameSharp(note);
+                return Note.getNoteNameSharp(note);
             case ALTERATION_FLAT:
-                return getNoteNameFlat(note);
+                return Note.getNoteNameFlat(note);
             case ALTERATION_NONE:
-                return getRootNoteName(note);
+                return Note.getRootNoteName(note);
         }
         throw new IllegalArgumentException();
     }
 
+    /** Текстовое написание ноты с учетом альтерации и октавой. */
+
     @NonNull
-    public final String getNoteName(@NoteIndex int note, @OctaveIndex int octave, @NoteAlteration int alteration)
+    public static String getNoteName(@NoteIndex int note, @OctaveIndex int octave, @NoteAlteration int alteration)
     {
         String name = getNoteName(note, alteration);
 
@@ -135,59 +146,6 @@ public class Octave
             case OCTAVE_2: return name + "2";
             case OCTAVE_3: return name + "3";
             case OCTAVE_4: return name + "4";
-        }
-        throw new IllegalArgumentException();
-    }
-
-    /** Текстовое написание основных нот и полутонов с диез. */
-
-    @NonNull
-    @SuppressLint("SwitchIntDef")
-    public final String getNoteNameSharp(@NoteIndex int note)
-    {
-        switch (note)
-        {
-            case CD: return "C#";
-            case DE: return "D#";
-            case FG: return "F#";
-            case GA: return "G#";
-            case AB: return "A#";
-        }
-        return getRootNoteName(note);
-    }
-
-    /** Текстовое написание основных нот и полутонов с бемоль. */
-
-    @NonNull
-    @SuppressLint("SwitchIntDef")
-    public final String getNoteNameFlat(@NoteIndex int note)
-    {
-        switch (note)
-        {
-            case CD: return "Db";
-            case DE: return "Eb";
-            case FG: return "Gb";
-            case GA: return "Ab";
-            case AB: return "Bb";
-        }
-        return getRootNoteName(note);
-    }
-
-    /** Текстовое написание основных нот. */
-
-    @NonNull
-    @SuppressLint("SwitchIntDef")
-    public final String getRootNoteName(@NoteIndex int note)
-    {
-        switch (note)
-        {
-            case  C: return "C";
-            case  D: return "D";
-            case  E: return "E";
-            case  F: return "F";
-            case  G: return "G";
-            case  A: return "A";
-            case  B: return "B";
         }
         throw new IllegalArgumentException();
     }

@@ -46,7 +46,7 @@ public class FretPreference extends DialogPreference
         if (title != null)
         {
             title.setSingleLine(true);
-            title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+            title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         }
     }
 

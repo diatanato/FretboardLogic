@@ -1,6 +1,8 @@
 package com.diatanato.android.fretboarlogic.settings.preferences;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.preference.TwoStatePreference;
 import android.util.AttributeSet;
@@ -8,15 +10,16 @@ import android.view.View;
 import android.widget.Switch;
 
 import com.diatanato.android.fretboarlogic.Note;
+import com.diatanato.android.fretboarlogic.Note.NoteIndex;
 import com.diatanato.android.fretboarlogic.Octave;
-import com.diatanato.android.fretboarlogic.Octave.NoteIndex;
 import com.diatanato.android.fretboarlogic.R;
-
 
 public class StringPreference extends TwoStatePreference
 {
-    private Note        mNote;
-    private MediaPlayer mPlayer;
+    private static MediaPlayer mPlayer = new MediaPlayer();
+
+    private Note mNote;
+    private int  mIndex;
 
     public StringPreference(Context context)
     {
@@ -50,9 +53,40 @@ public class StringPreference extends TwoStatePreference
     {
         super.onBindView(view);
 
-        view.findViewById(R.id.play).setOnClickListener(v -> mPlayer.start());
-        view.findViewById(R.id.string).getLayoutParams().height = 2 * Integer.parseInt(getTitle().toString());
+        view.findViewById(R.id.string).getLayoutParams().height = 2 * mIndex;
+        view.findViewById(R.id.play).setOnClickListener(v ->
+        {
+            if (mPlayer.isPlaying()) {
+                mPlayer.pause();
+                mPlayer.seekTo(0);
+            }
+            if (mPlayer.getAudioSessionId() != mIndex){
+                try {
+                    int id = getContext().getResources().getIdentifier(
+                        Octave.getNoteName(
+                            mNote.getNoteIndex(),
+                            mNote.getOctave(),
+                            Octave.ALTERATION_NONE)
+                        .toLowerCase(),
+                        "raw",
+                        getContext().getPackageName());
+                    AssetFileDescriptor afd = getContext().getResources().openRawResourceFd(id);
 
+                    mPlayer.reset();
+                    mPlayer.setAudioSessionId(mIndex);
+                    mPlayer.setAudioAttributes(new AudioAttributes.Builder().build());
+                    mPlayer.setDataSource(
+                        afd.getFileDescriptor(),
+                        afd.getStartOffset(),
+                        afd.getLength());
+                    mPlayer.prepare();
+
+                    afd.close();
+
+                } catch (Exception ignore) {}
+            }
+            mPlayer.start();
+        });
         Switch button = view.findViewById(R.id.button);
 
         button.setChecked(isChecked());
@@ -67,18 +101,19 @@ public class StringPreference extends TwoStatePreference
         return mNote;
     }
 
-    /** Устанавливаем выбранную ноту */
+    /** Устанавливает выбранную ноту */
 
     public void setNote(@NoteIndex int note, int octave)
     {
-        Context context = getContext();
+        mNote = new Note(note, octave);
+        setSummary(Octave.getNoteName(mNote.getNoteIndex(), mNote.getOctave(), Octave.ALTERATION_NONE));
+    }
 
-        //TODO: получаем ресурс по ноте и октаве
-        //context.getResources().getIdentifier("A1", "raw", context.getPackageName());
+    /** Устанавливает номер струны */
 
-        mNote   = new Note(note, octave);
-        mPlayer = MediaPlayer.create(context, R.raw.a1);
-
-        setSummary(Octave.getInstance().getNoteName(mNote.getNoteIndex(), mNote.getOctave(), Octave.ALTERATION_NONE));
+    public void setIndex(int index)
+    {
+        mIndex = index;
+        setTitle(Integer.toString(index));
     }
 }

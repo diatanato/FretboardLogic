@@ -1,6 +1,6 @@
 package com.diatanato.android.fretboarlogic.instruments;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.diatanato.android.fretboarlogic.fretboard.FretboardNote;
 import com.diatanato.android.fretboarlogic.fretboard.Fretboard;

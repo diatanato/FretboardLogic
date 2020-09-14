@@ -1,7 +1,7 @@
 package com.diatanato.android.fretboarlogic.fretboard;
 
+import static com.diatanato.android.fretboarlogic.Note.NoteIndex;
 import static com.diatanato.android.fretboarlogic.Octave.NoteAlteration;
-import static com.diatanato.android.fretboarlogic.Octave.NoteIndex;
 
 public class FretboardNote
 {

@@ -3,14 +3,15 @@ package com.diatanato.android.fretboarlogic.fretboard;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
+import androidx.core.content.ContextCompat;
 
 import com.diatanato.android.fretboarlogic.R;
 import com.diatanato.android.fretboarlogic.instruments.Guitar;

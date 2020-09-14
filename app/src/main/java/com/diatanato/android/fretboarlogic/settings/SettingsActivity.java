@@ -1,7 +1,7 @@
 package com.diatanato.android.fretboarlogic.settings;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.diatanato.android.fretboarlogic.R;
 

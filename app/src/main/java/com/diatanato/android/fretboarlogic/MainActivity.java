@@ -6,11 +6,12 @@ import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Rect;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.diatanato.android.fretboarlogic.fretboard.FretboardPoint;
 import com.diatanato.android.fretboarlogic.fretboard.FretboardView;
@@ -23,7 +24,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity
 {
     private FretboardPoint mPoint;
-    private FretboardView mFretboard;
+    private FretboardView  mFretboard;
 
     private LinearLayout   mBottomPanel;
 
