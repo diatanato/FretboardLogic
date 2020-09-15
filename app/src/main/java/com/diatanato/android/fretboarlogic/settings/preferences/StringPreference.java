@@ -2,7 +2,6 @@ package com.diatanato.android.fretboarlogic.settings.preferences;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
-import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.preference.TwoStatePreference;
 import android.util.AttributeSet;
@@ -67,23 +66,23 @@ public class StringPreference extends TwoStatePreference
                             mNote.getNoteIndex(),
                             mNote.getOctave(),
                             Octave.ALTERATION_NONE)
-                        .toLowerCase(),
+                        .toLowerCase() +
+                        mIndex,
                         "raw",
                         getContext().getPackageName());
-                    AssetFileDescriptor afd = getContext().getResources().openRawResourceFd(id);
+
+                    AssetFileDescriptor file = getContext().getResources().openRawResourceFd(id);
 
                     mPlayer.reset();
-                    mPlayer.setAudioSessionId(mIndex);
-                    mPlayer.setAudioAttributes(new AudioAttributes.Builder().build());
                     mPlayer.setDataSource(
-                        afd.getFileDescriptor(),
-                        afd.getStartOffset(),
-                        afd.getLength());
+                        file.getFileDescriptor(),
+                        file.getStartOffset(),
+                        file.getLength());
                     mPlayer.prepare();
 
-                    afd.close();
-
-                } catch (Exception ignore) {}
+                    file.close();
+                }
+                catch (Exception ignore) {}
             }
             mPlayer.start();
         });
@@ -103,9 +102,9 @@ public class StringPreference extends TwoStatePreference
 
     /** Устанавливает выбранную ноту */
 
-    public void setNote(@NoteIndex int note, int octave)
+    public void setNote(Note note)
     {
-        mNote = new Note(note, octave);
+        mNote = note;
         setSummary(Octave.getNoteName(mNote.getNoteIndex(), mNote.getOctave(), Octave.ALTERATION_NONE));
     }
 

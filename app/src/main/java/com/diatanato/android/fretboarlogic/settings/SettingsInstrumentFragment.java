@@ -6,10 +6,13 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.diatanato.android.fretboarlogic.Note;
 import com.diatanato.android.fretboarlogic.Octave;
 import com.diatanato.android.fretboarlogic.R;
+import com.diatanato.android.fretboarlogic.database.AppDatabase;
+import com.diatanato.android.fretboarlogic.database.entities.Tuning;
 import com.diatanato.android.fretboarlogic.settings.preferences.StringPreference;
 
 public class SettingsInstrumentFragment extends PreferenceFragment
@@ -29,15 +32,34 @@ public class SettingsInstrumentFragment extends PreferenceFragment
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences_instrument);
 
-        loadTuning();
+        //TODO: индекс строя из настроек */
+        loadTuning(1);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        //TODO: список предсохраненных строев
+        for (Tuning tuning : AppDatabase.getInstance(getContext()).getTuningDao().getAll())
+        {
+            StringBuilder builder = new StringBuilder();
 
-        menu.add(Menu.NONE, 101, Menu.NONE, "EADGBE");
+            for (int i = 0; i < tuning.strings.size(); i++)
+            {
+                builder.append(Octave.getNoteName(Octave.getInstance().getNote(tuning.strings.get(i)), Octave.ALTERATION_FLAT));
+            }
+            menu.add(Menu.NONE, tuning.id, Menu.NONE, builder.toString());
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if (item.getItemId() < 100)
+        {
+            loadTuning(item.getItemId());
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /** Возвращает строй в виде строки. */
@@ -58,20 +80,20 @@ public class SettingsInstrumentFragment extends PreferenceFragment
 
     /** Загружает настройки указанного строя. */
 
-    private void loadTuning(/* TODO: строй или индекс строя */)
+    private void loadTuning(int index)
     {
         mCategory = (PreferenceCategory)findPreference("category_strings");
+        mCategory.removeAll();
 
-        //TODO: берем количество струн строя
-        //TODO: устанавливаем ноту
+        Tuning tuning = AppDatabase.getInstance(getContext()).getTuningDao().getTuning(index);
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < tuning.strings.size(); i++)
         {
             String key = Settings.KEY_PREFERENCE_STRING + i;
 
             StringPreference preference = new StringPreference(getContext());
             preference.setKey(key);
-            preference.setNote(Note.A, 1);
+            preference.setNote(new Note(tuning.strings.get(i)));
             preference.setIndex(i + 1);
 
             mCategory.addPreference(preference);
