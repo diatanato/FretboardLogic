@@ -32,6 +32,7 @@ public class Settings implements OnSharedPreferenceChangeListener
         mStrings = new ArrayList<Integer>(10);
 
         onSharedPreferenceChanged(preference, KEY_PREFERENCE_ZOOM);
+        onSharedPreferenceChanged(preference, KEY_PREFERENCE_SOUND);
         onSharedPreferenceChanged(preference, KEY_PREFERENCE_STRING);
         onSharedPreferenceChanged(preference, KEY_PREFERENCE_REVERSE);
         onSharedPreferenceChanged(preference, KEY_PREFERENCE_MIN_FRET);
@@ -42,58 +43,52 @@ public class Settings implements OnSharedPreferenceChangeListener
     private int mMax;
 
     private boolean mReverse;
+    private boolean mSound;
     private boolean mZoom;
 
     private List<Integer> mStrings;
 
     /** Индекс текущего инструмента. */
 
-    public int instrument()
-    {
+    public int instrument() {
         return 0;
     }
 
     /** Минимальный лад для генерации случайных нот. */
 
-    public int minFret()
-    {
+    public int minFret() {
         return mMin;
     }
 
     /** Максимальный лад для генерации случайных нот. */
 
-    public int maxFret()
-    {
+    public int maxFret() {
         return mMax;
     }
 
     /** Используемые знаки альтерации. */
 
     @NoteAlteration
-    public int alteration()
-    {
+    public int alteration() {
         return ALTERATION_NONE;
     }
 
     /** Ориентация грифа под левую/правую руку. */
 
-    public boolean reverse()
-    {
+    public boolean reverse() {
         return mReverse;
     }
 
     /** Масштабирование грифа. */
 
-    public boolean zoom()
-    {
+    public boolean zoom() {
         return mZoom;
     }
 
     /** Проигрывание нот. */
 
-    public boolean sound()
-    {
-        return false;
+    public boolean sound() {
+        return mSound;
     }
 
     /** Список активных струн. */
@@ -106,33 +101,36 @@ public class Settings implements OnSharedPreferenceChangeListener
     @Override
     public void onSharedPreferenceChanged(SharedPreferences preferences, String key)
     {
-        if (key.equals(KEY_PREFERENCE_REVERSE))
+        switch (key)
         {
-            mReverse = preferences.getBoolean(key, false);
-        }
-        if (key.equals(KEY_PREFERENCE_MIN_FRET))
-        {
-            mMin = preferences.getInt(key, 0);
-        }
-        if (key.equals(KEY_PREFERENCE_MAX_FRET))
-        {
-            mMax = preferences.getInt(key, 3);
-        }
-        if (key.equals(KEY_PREFERENCE_ZOOM))
-        {
-            mZoom = preferences.getBoolean(key, false);
-        }
-        if (key.contains(KEY_PREFERENCE_STRING))
-        {
-            mStrings.clear();
-
-            //TODO: количество струн
-            for (int i = 0; i < 6; i++)
+            case KEY_PREFERENCE_REVERSE:
+                mReverse = preferences.getBoolean(key, false);
+                break;
+            case KEY_PREFERENCE_MIN_FRET:
+                mMin = preferences.getInt(key, 0);
+                break;
+            case KEY_PREFERENCE_MAX_FRET:
+                mMax = preferences.getInt(key, 3);
+                break;
+            case KEY_PREFERENCE_ZOOM:
+                mZoom = preferences.getBoolean(key, false);
+                break;
+            case KEY_PREFERENCE_SOUND:
+                mSound = preferences.getBoolean(key, true);
+                break;
+            case KEY_PREFERENCE_STRING:
             {
-                if (preferences.getBoolean(Settings.KEY_PREFERENCE_STRING + i, true))
+                mStrings.clear();
+
+                //TODO: количество струн
+                for (int i = 0; i < 6; i++)
                 {
-                    mStrings.add(i);
+                    if (preferences.getBoolean(Settings.KEY_PREFERENCE_STRING + i, true))
+                    {
+                        mStrings.add(i);
+                    }
                 }
+                break;
             }
         }
     }

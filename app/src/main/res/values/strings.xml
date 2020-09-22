@@ -10,7 +10,10 @@
     <string name="pref_zoom_title">Увеличить</string>
     <string name="pref_min_title">Первый лад</string>
     <string name="pref_max_title">Последний лад</string>
-    <string name="pref_strings">Струны</string>>
+    <string name="pref_strings">Струны</string>
+    <string name="pref_sound_title">Звук</string>
+    <string name="pref_sound_summary_on">Ноты проигрываются при ответе</string>
+    <string name="pref_sound_summary_off">Ноты не проигрываются при ответе</string>
 
     <string name="pref_instrument">Инструмент</string>
     <string-array name="pref_instrument_titles">

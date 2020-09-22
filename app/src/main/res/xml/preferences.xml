@@ -27,6 +27,12 @@
         android:summary="%s"
         android:title="@string/pref_answer_title" />
     <SwitchPreference
+        android:defaultValue="true"
+        android:key="sound"
+        android:summaryOn="@string/pref_sound_summary_on"
+        android:summaryOff="@string/pref_sound_summary_off"
+        android:title="@string/pref_sound_title" />
+    <SwitchPreference
         android:defaultValue="false"
         android:key="zoom"
         android:title="@string/pref_zoom_title" />

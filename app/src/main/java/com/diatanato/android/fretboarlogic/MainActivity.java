@@ -5,7 +5,6 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -15,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.diatanato.android.fretboarlogic.fretboard.FretboardPoint;
 import com.diatanato.android.fretboarlogic.fretboard.FretboardView;
+import com.diatanato.android.fretboarlogic.instruments.guitar.GuitarPlayer;
 import com.diatanato.android.fretboarlogic.settings.Settings;
 import com.diatanato.android.fretboarlogic.settings.SettingsActivity;
 
@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity
     private FretboardPoint mPoint;
     private FretboardView  mFretboard;
 
+    private GuitarPlayer   mPlayer;
     private LinearLayout   mBottomPanel;
 
     private TextView       mCorrect;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mPlayer    = new GuitarPlayer(this);
         mSettings  = new Settings(this);
 
         mSpeed     = findViewById(R.id.speed);
@@ -63,6 +65,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onPause()
+    {
+        super.onPause();
+        mPlayer.release();
+    }
+
+    @Override
     public void onResume()
     {
         super.onResume();
@@ -74,7 +83,7 @@ public class MainActivity extends AppCompatActivity
         //TODO: меняем цвет кнопки на красный селектором
         button.setEnabled(false);
 
-        if (mPoint.getNote().getNote() == Integer.parseInt(button.getTag().toString()))
+        if (mPoint.getNote().getNoteIndex() == Integer.parseInt(button.getTag().toString()))
         {
             mCorrectCount += 1;
             mCorrect.setText(String.valueOf(mCorrectCount));
@@ -84,16 +93,14 @@ public class MainActivity extends AppCompatActivity
             float speed = (float)time / 1000.0F;
             mSpeed.setText(String.format(Locale.US, "%.1f", speed));
 
-            if (mSettings.sound())
-            {
-
+            if (mSettings.sound()) {
+                mPlayer.play(mPoint.getNote());
             }
             mPoint.setTextVisibility(View.VISIBLE);
             animation(mPoint, new AnimatorListenerAdapter()
             {
                 @Override
-                public void onAnimationEnd(Animator animation)
-                {
+                public void onAnimationEnd(Animator animation) {
                     setPoint();
                 }
             });

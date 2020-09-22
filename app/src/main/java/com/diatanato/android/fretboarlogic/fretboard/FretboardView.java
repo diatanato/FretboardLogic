@@ -14,7 +14,7 @@ import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 import androidx.core.content.ContextCompat;
 
 import com.diatanato.android.fretboarlogic.R;
-import com.diatanato.android.fretboarlogic.instruments.Guitar;
+import com.diatanato.android.fretboarlogic.instruments.guitar.Guitar;
 import com.diatanato.android.fretboarlogic.instruments.Instrument;
 import com.diatanato.android.fretboarlogic.settings.Settings;
 
@@ -88,7 +88,7 @@ public class FretboardView extends RelativeLayout
 
     public FretboardPoint addPoint(FretboardNote note, @PointBackground int background)
     {
-        Rect position = getPointPosition(note.getFret(), note.getString());
+        Rect position = getPointPosition(note.getFret(), note.getStringIndex());
 
         FretboardPoint point = new FretboardPoint(getContext(), note);
 

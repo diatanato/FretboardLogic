@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -13,8 +14,8 @@ import com.diatanato.android.fretboarlogic.Octave.OctaveIndex;
 
 public class Note
 {
-    private int mNote;
-    private int mOctave;
+    private final int mNote;
+    private final int mOctave;
 
     @IntDef({C, CD, D, DE, E, F, FG, G, GA, A, AB, B})
     @Retention(RetentionPolicy.SOURCE)
@@ -86,13 +87,6 @@ public class Note
         throw new IllegalArgumentException();
     }
 
-    /** Инициализирует ноту по строковому значению. */
-
-    public Note(String value)
-    {
-        throw new UnsupportedOperationException();
-    }
-
     /** Инициализирует ноту по ее коду. */
 
     public Note(int code)
@@ -111,16 +105,39 @@ public class Note
     /** Возвращает индекс ноты. */
 
     @NoteIndex
-    public int getNoteIndex()
-    {
+    public int getNoteIndex() {
         return mNote;
     }
 
     /** Возвращает индекс октавы. */
 
     @OctaveIndex
-    public int getOctave()
-    {
+    public int getOctave() {
         return mOctave;
+    }
+
+    @Override
+    public int hashCode() {
+        return Octave.getInstance().getNoteCode(mNote, mOctave);
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj)
+    {
+        if (this != obj) {
+            if (obj instanceof Note) {
+                return
+                    mNote   == ((Note)obj).mNote   &&
+                    mOctave == ((Note)obj).mOctave;
+            }
+            return false;
+        }
+        return true;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return Octave.getNoteName(mNote, mOctave, Octave.ALTERATION_NONE);
     }
 }

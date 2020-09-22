@@ -24,7 +24,7 @@ public class FretboardPoint extends ViewGroup
         mText.setGravity(Gravity.CENTER);
         mText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 7.5f);
         mText.setTextColor(Color.BLACK);
-        mText.setText(Octave.getInstance().getNoteName(note.getNote(), note.getAlteration()));
+        mText.setText(Octave.getInstance().getNoteName(note.getNoteIndex(), note.getAlteration()));
 
         addView(mText);
     }

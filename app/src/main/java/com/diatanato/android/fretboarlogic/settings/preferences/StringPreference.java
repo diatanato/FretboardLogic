@@ -1,24 +1,21 @@
 package com.diatanato.android.fretboarlogic.settings.preferences;
 
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
-import android.media.MediaPlayer;
 import android.preference.TwoStatePreference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Switch;
 
-import com.diatanato.android.fretboarlogic.Note;
-import com.diatanato.android.fretboarlogic.Note.NoteIndex;
 import com.diatanato.android.fretboarlogic.Octave;
 import com.diatanato.android.fretboarlogic.R;
+import com.diatanato.android.fretboarlogic.fretboard.FretboardNote;
+import com.diatanato.android.fretboarlogic.instruments.guitar.GuitarPlayer;
 
 public class StringPreference extends TwoStatePreference
 {
-    private static MediaPlayer mPlayer = new MediaPlayer();
+    private GuitarPlayer mPlayer;
 
-    private Note mNote;
-    private int  mIndex;
+    private FretboardNote mNote;
 
     public StringPreference(Context context)
     {
@@ -44,7 +41,7 @@ public class StringPreference extends TwoStatePreference
     @Override
     protected void notifyChanged()
     {
-        //Чинит анимацию переключателя.
+        //Чинит анимацию переключателя
     }
 
     @Override
@@ -52,67 +49,36 @@ public class StringPreference extends TwoStatePreference
     {
         super.onBindView(view);
 
-        view.findViewById(R.id.string).getLayoutParams().height = 2 * mIndex;
-        view.findViewById(R.id.play).setOnClickListener(v ->
-        {
-            if (mPlayer.isPlaying()) {
-                mPlayer.pause();
-                mPlayer.seekTo(0);
-            }
-            if (mPlayer.getAudioSessionId() != mIndex){
-                try {
-                    int id = getContext().getResources().getIdentifier(
-                        Octave.getNoteName(
-                            mNote.getNoteIndex(),
-                            mNote.getOctave(),
-                            Octave.ALTERATION_NONE)
-                        .toLowerCase() +
-                        mIndex,
-                        "raw",
-                        getContext().getPackageName());
-
-                    AssetFileDescriptor file = getContext().getResources().openRawResourceFd(id);
-
-                    mPlayer.reset();
-                    mPlayer.setDataSource(
-                        file.getFileDescriptor(),
-                        file.getStartOffset(),
-                        file.getLength());
-                    mPlayer.prepare();
-
-                    file.close();
-                }
-                catch (Exception ignore) {}
-            }
-            mPlayer.start();
+        view.findViewById(R.id.string).getLayoutParams().height = 2 * mNote.getString();
+        view.findViewById(R.id.play).setOnClickListener(v -> {
+            mPlayer.play(mNote);
         });
+
         Switch button = view.findViewById(R.id.button);
 
         button.setChecked(isChecked());
-        button.setOnCheckedChangeListener((v, checked) ->
-        {
+        button.setOnCheckedChangeListener((v, checked) -> {
             setChecked(checked);
         });
     }
 
-    public Note getNote()
-    {
+    public FretboardNote getNote() {
         return mNote;
     }
 
     /** Устанавливает выбранную ноту */
 
-    public void setNote(Note note)
+    public void setNote(FretboardNote note)
     {
         mNote = note;
+
+        setTitle(Integer.toString(mNote.getString()));
         setSummary(Octave.getNoteName(mNote.getNoteIndex(), mNote.getOctave(), Octave.ALTERATION_NONE));
     }
 
-    /** Устанавливает номер струны */
+    /** Устанавливает проигрыватель нот */
 
-    public void setIndex(int index)
-    {
-        mIndex = index;
-        setTitle(Integer.toString(index));
+    public void setPlayer(GuitarPlayer player){
+        mPlayer = player;
     }
 }

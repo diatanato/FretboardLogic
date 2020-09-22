@@ -1,10 +1,11 @@
-package com.diatanato.android.fretboarlogic.instruments;
+package com.diatanato.android.fretboarlogic.instruments.guitar;
 
 import android.content.Context;
 import androidx.core.content.ContextCompat;
 
 import com.diatanato.android.fretboarlogic.fretboard.Fretboard;
 import com.diatanato.android.fretboarlogic.fretboard.FretboardSpecs;
+import com.diatanato.android.fretboarlogic.instruments.Instrument;
 import com.diatanato.android.fretboarlogic.Note;
 import com.diatanato.android.fretboarlogic.Octave;
 import com.diatanato.android.fretboarlogic.R;

@@ -19,7 +19,7 @@ public class Octave
     private final List<Integer> mNotes;
     private final List<Integer> mRootNotes;
 
-    @IntDef({OCTAVE_1, OCTAVE_2, OCTAVE_3, OCTAVE_4})
+    @IntDef({OCTAVE_1, OCTAVE_2, OCTAVE_3, OCTAVE_4, OCTAVE_5, OCTAVE_6})
     @Retention(RetentionPolicy.SOURCE)
     public @interface OctaveIndex { }
 
@@ -27,6 +27,8 @@ public class Octave
     public final static int OCTAVE_2 = 2;
     public final static int OCTAVE_3 = 3;
     public final static int OCTAVE_4 = 4;
+    public final static int OCTAVE_5 = 5;
+    public final static int OCTAVE_6 = 6;
 
     @IntDef({ALTERATION_NONE, ALTERATION_SHARP, ALTERATION_FLAT})
     @Retention(RetentionPolicy.SOURCE)
@@ -146,6 +148,8 @@ public class Octave
             case OCTAVE_2: return name + "2";
             case OCTAVE_3: return name + "3";
             case OCTAVE_4: return name + "4";
+            case OCTAVE_5: return name + "5";
+            case OCTAVE_6: return name + "6";
         }
         throw new IllegalArgumentException();
     }

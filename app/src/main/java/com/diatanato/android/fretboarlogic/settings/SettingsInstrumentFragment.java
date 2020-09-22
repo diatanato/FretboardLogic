@@ -1,6 +1,5 @@
 package com.diatanato.android.fretboarlogic.settings;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
@@ -8,15 +7,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.diatanato.android.fretboarlogic.Note;
 import com.diatanato.android.fretboarlogic.Octave;
 import com.diatanato.android.fretboarlogic.R;
 import com.diatanato.android.fretboarlogic.database.AppDatabase;
 import com.diatanato.android.fretboarlogic.database.entities.Tuning;
+import com.diatanato.android.fretboarlogic.fretboard.FretboardNote;
+import com.diatanato.android.fretboarlogic.instruments.guitar.GuitarPlayer;
 import com.diatanato.android.fretboarlogic.settings.preferences.StringPreference;
 
 public class SettingsInstrumentFragment extends PreferenceFragment
 {
+    GuitarPlayer       mPlayer;
     PreferenceCategory mCategory;
 
     @Override
@@ -32,8 +33,18 @@ public class SettingsInstrumentFragment extends PreferenceFragment
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences_instrument);
 
+        mPlayer    = new GuitarPlayer(getContext());
+        mCategory = (PreferenceCategory)findPreference("category_strings");
+
         //TODO: индекс строя из настроек */
         loadTuning(1);
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        mPlayer.release();
     }
 
     @Override
@@ -66,14 +77,14 @@ public class SettingsInstrumentFragment extends PreferenceFragment
 
     public String getTuningString()
     {
-        //TODO: берем ALTERATION из настроек
-
         StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < mCategory.getPreferenceCount(); i++)
         {
             StringPreference preference = (StringPreference)mCategory.getPreference(i);
-            builder.append(Octave.getNoteName(preference.getNote().getNoteIndex(), Octave.ALTERATION_FLAT));
+            FretboardNote    note       = preference.getNote();
+
+            builder.append(Octave.getNoteName(note.getNoteIndex(), note.getAlteration()));
         }
         return builder.toString();
     }
@@ -82,19 +93,28 @@ public class SettingsInstrumentFragment extends PreferenceFragment
 
     private void loadTuning(int index)
     {
-        mCategory = (PreferenceCategory)findPreference("category_strings");
         mCategory.removeAll();
 
         Tuning tuning = AppDatabase.getInstance(getContext()).getTuningDao().getTuning(index);
 
         for (int i = 0; i < tuning.strings.size(); i++)
         {
-            String key = Settings.KEY_PREFERENCE_STRING + i;
+            Integer code = tuning.strings.get(i);
+            String  key  = Settings.KEY_PREFERENCE_STRING + i;
 
+            //TODO: берем ALTERATION из настроек
+            FretboardNote note = new FretboardNote(
+                Octave.getInstance().getNote(code),
+                Octave.getInstance().getOctave(code),
+                Octave.ALTERATION_NONE,
+                i,
+                0
+            );
             StringPreference preference = new StringPreference(getContext());
+
             preference.setKey(key);
-            preference.setNote(new Note(tuning.strings.get(i)));
-            preference.setIndex(i + 1);
+            preference.setNote(note);
+            preference.setPlayer(mPlayer);
 
             mCategory.addPreference(preference);
         }
