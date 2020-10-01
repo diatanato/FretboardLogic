@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
+import androidx.annotation.Nullable;
+
 import com.diatanato.android.fretboarlogic.R;
 import com.diatanato.android.fretboarlogic.settings.preferences.FretPreference;
 
@@ -14,9 +16,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public static final int SETTINGS_TUNING_REQUEST = 1;
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    public void onCreate(@Nullable Bundle bundle)
     {
-        super.onCreate(savedInstanceState);
+        super.onCreate(bundle);
         addPreferencesFromResource(R.xml.preferences);
 
         findPreference(Settings.KEY_PREFERENCE_INSTRUMENT).setOnPreferenceClickListener(preference ->

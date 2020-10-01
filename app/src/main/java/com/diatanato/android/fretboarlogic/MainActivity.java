@@ -10,8 +10,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.diatanato.android.fretboarlogic.dagger.ActivityComponent;
 import com.diatanato.android.fretboarlogic.fretboard.FretboardPoint;
 import com.diatanato.android.fretboarlogic.fretboard.FretboardView;
 import com.diatanato.android.fretboarlogic.instruments.guitar.GuitarPlayer;
@@ -21,12 +23,18 @@ import com.diatanato.android.fretboarlogic.settings.SettingsActivity;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity
+import javax.inject.Inject;
+
+public class MainActivity extends InjectionActivity
 {
+    @Inject
+    Settings mSettings;
+
+    @Inject
+    GuitarPlayer mPlayer;
+
     private FretboardPoint mPoint;
     private FretboardView  mFretboard;
-
-    private GuitarPlayer   mPlayer;
     private LinearLayout   mBottomPanel;
 
     private TextView       mCorrect;
@@ -37,16 +45,11 @@ public class MainActivity extends AppCompatActivity
     private int            mCorrectCount;
     private int            mIncorrectCount;
 
-    private Settings       mSettings;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void onCreate(@Nullable Bundle bundle)
     {
-        super.onCreate(savedInstanceState);
+        super.onCreate(bundle);
         setContentView(R.layout.activity_main);
-
-        mPlayer    = new GuitarPlayer(this);
-        mSettings  = new Settings(this);
 
         mSpeed     = findViewById(R.id.speed);
         mCorrect   = findViewById(R.id.correct);
@@ -62,6 +65,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, SettingsActivity.class));
         });
         mBottomPanel = findViewById(R.id.bottompanel);
+    }
+
+    @Override
+    protected void onInject(ActivityComponent component) {
+        component.inject(this);
     }
 
     @Override
