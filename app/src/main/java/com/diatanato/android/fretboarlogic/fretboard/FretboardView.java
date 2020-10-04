@@ -14,7 +14,6 @@ import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 import androidx.core.content.ContextCompat;
 
 import com.diatanato.android.fretboarlogic.R;
-import com.diatanato.android.fretboarlogic.instruments.guitar.Guitar;
 import com.diatanato.android.fretboarlogic.instruments.Instrument;
 import com.diatanato.android.fretboarlogic.settings.Settings;
 
@@ -38,17 +37,18 @@ public class FretboardView extends RelativeLayout
     public final static int POINT_GREEN = 2;
     public final static int POINT_BLUE  = 3;
 
-    //TODO: выбираем инструмент в соответствии с настройками
-    private final Instrument mInstrument = new Guitar(getContext());
+    private Instrument mInstrument;
 
-    public FretboardView(Context context, AttributeSet attrs)
-    {
+    public FretboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public FretboardView(Context context, AttributeSet attrs, int defStyleAttr)
-    {
+    public FretboardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    public void setInstrument(Instrument instrument) {
+        mInstrument = instrument;
     }
 
     @Override
@@ -56,14 +56,17 @@ public class FretboardView extends RelativeLayout
     {
         super.onAttachedToWindow();
 
-        Drawable fretboard = mInstrument.getFretboard().getImage();
+        if (mInstrument != null)
+        {
+            Drawable fretboard = mInstrument.getFretboard().getImage();
 
-        setBackground(fretboard);
+            setBackground(fretboard);
 
-        int w = fretboard.getIntrinsicWidth();
-        int h = fretboard.getIntrinsicHeight();
+            int w = fretboard.getIntrinsicWidth();
+            int h = fretboard.getIntrinsicHeight();
 
-        ((ConstraintLayout.LayoutParams)getLayoutParams()).dimensionRatio =  w + ":" + h;
+            ((ConstraintLayout.LayoutParams)getLayoutParams()).dimensionRatio =  w + ":" + h;
+        }
     }
 
     @Override
@@ -71,10 +74,13 @@ public class FretboardView extends RelativeLayout
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        int w = getMeasuredWidth();
-        int h = getMeasuredHeight();
+        if (mInstrument != null)
+        {
+            int w = getMeasuredWidth();
+            int h = getMeasuredHeight();
 
-        mInstrument.getFretboard().measure(w, h);
+            mInstrument.getFretboard().measure(w, h);
+        }
     }
 
     /** Добавляет случайную ноту на гриф. */

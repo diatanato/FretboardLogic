@@ -11,11 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.diatanato.android.fretboarlogic.dagger.ActivityComponent;
 import com.diatanato.android.fretboarlogic.fretboard.FretboardPoint;
 import com.diatanato.android.fretboarlogic.fretboard.FretboardView;
+import com.diatanato.android.fretboarlogic.instruments.guitar.Guitar;
 import com.diatanato.android.fretboarlogic.instruments.guitar.GuitarPlayer;
 import com.diatanato.android.fretboarlogic.settings.Settings;
 import com.diatanato.android.fretboarlogic.settings.SettingsActivity;
@@ -56,12 +56,12 @@ public class MainActivity extends InjectionActivity
         mIncorrect = findViewById(R.id.incorrect);
         mFretboard = findViewById(R.id.fretboard);
 
-        mFretboard.setOnClickListener(view ->
-        {
+        //TODO: выбираем инструмент в соответствии с настройками mSettings.instrument(), устанавливаем ему соответствующий строй и количество ладов
+        mFretboard.setInstrument(new Guitar(this));
+        mFretboard.setOnClickListener(view -> {
             setPoint();
         });
-        findViewById(R.id.settings).setOnClickListener(view ->
-        {
+        findViewById(R.id.settings).setOnClickListener(view -> {
             startActivity(new Intent(this, SettingsActivity.class));
         });
         mBottomPanel = findViewById(R.id.bottompanel);
