@@ -34,11 +34,14 @@ public class Settings implements OnSharedPreferenceChangeListener
         onSharedPreferenceChanged(preference, KEY_PREFERENCE_ZOOM);
         onSharedPreferenceChanged(preference, KEY_PREFERENCE_SOUND);
         onSharedPreferenceChanged(preference, KEY_PREFERENCE_STRING);
+        onSharedPreferenceChanged(preference, KEY_PREFERENCE_TUNING);
         onSharedPreferenceChanged(preference, KEY_PREFERENCE_REVERSE);
         onSharedPreferenceChanged(preference, KEY_PREFERENCE_MIN_FRET);
         onSharedPreferenceChanged(preference, KEY_PREFERENCE_MAX_FRET);
     }
 
+    private int mInstrument;
+    private int mTuning;
     private int mMin;
     private int mMax;
 
@@ -51,7 +54,13 @@ public class Settings implements OnSharedPreferenceChangeListener
     /** Индекс текущего инструмента. */
 
     public int instrument() {
-        return 0;
+        return mInstrument;
+    }
+
+    /** Индекс текущего строя. */
+
+    public int tuning() {
+        return mTuning;
     }
 
     /** Минимальный лад для генерации случайных нот. */
@@ -105,32 +114,33 @@ public class Settings implements OnSharedPreferenceChangeListener
         {
             case KEY_PREFERENCE_REVERSE:
                 mReverse = preferences.getBoolean(key, false);
-                break;
+                return;
+            case KEY_PREFERENCE_TUNING:
+                mTuning = preferences.getInt(key, 1);
+                return;
             case KEY_PREFERENCE_MIN_FRET:
                 mMin = preferences.getInt(key, 0);
-                break;
+                return;
             case KEY_PREFERENCE_MAX_FRET:
                 mMax = preferences.getInt(key, 3);
-                break;
+                return;
             case KEY_PREFERENCE_ZOOM:
                 mZoom = preferences.getBoolean(key, false);
-                break;
+                return;
             case KEY_PREFERENCE_SOUND:
                 mSound = preferences.getBoolean(key, true);
-                break;
-            case KEY_PREFERENCE_STRING:
-            {
-                mStrings.clear();
+                return;
+        }
+        if (key.contains(KEY_PREFERENCE_STRING))
+        {
+            mStrings.clear();
 
-                //TODO: количество струн
-                for (int i = 0; i < 6; i++)
-                {
-                    if (preferences.getBoolean(Settings.KEY_PREFERENCE_STRING + i, true))
-                    {
-                        mStrings.add(i);
-                    }
+            //TODO: количество струн
+            for (int i = 0; i < 6; i++)
+            {
+                if (preferences.getBoolean(Settings.KEY_PREFERENCE_STRING + i, true)) {
+                    mStrings.add(i);
                 }
-                break;
             }
         }
     }

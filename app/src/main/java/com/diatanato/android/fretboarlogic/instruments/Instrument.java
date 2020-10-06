@@ -17,8 +17,12 @@ public abstract class Instrument
     private final static Random mRandom = new Random();
     private final static Octave mOctave = Octave.getInstance();
 
-    protected List<Note> mTuning;
+    protected Note[]     mTuning;
     protected Fretboard  mFretboard;
+
+    public Instrument(Note[] tuning) {
+        mTuning = tuning;
+    }
 
     /** Генератор случайных чисел в указанных пределах. */
 
@@ -39,9 +43,9 @@ public abstract class Instrument
     @NonNull
     public Note getNote(int string, int fret)
     {
-        if (string < mTuning.size())
+        if (string < mTuning.length)
         {
-            Note note = mTuning.get(string);
+            Note note = mTuning[string];
 
             return new Note(
                 mOctave.getIntervalNote(note.getNoteIndex(), fret),

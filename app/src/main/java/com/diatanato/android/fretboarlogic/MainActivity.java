@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.diatanato.android.fretboarlogic.dagger.ActivityComponent;
+import com.diatanato.android.fretboarlogic.database.dao.TuningDao;
 import com.diatanato.android.fretboarlogic.fretboard.FretboardPoint;
 import com.diatanato.android.fretboarlogic.fretboard.FretboardView;
 import com.diatanato.android.fretboarlogic.instruments.guitar.Guitar;
@@ -20,7 +21,9 @@ import com.diatanato.android.fretboarlogic.instruments.guitar.GuitarPlayer;
 import com.diatanato.android.fretboarlogic.settings.Settings;
 import com.diatanato.android.fretboarlogic.settings.SettingsActivity;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -31,12 +34,17 @@ public class MainActivity extends InjectionActivity
     Settings mSettings;
 
     @Inject
+    TuningDao mTuningTable;
+
+    @Inject
     GuitarPlayer mPlayer;
 
     private FretboardPoint mPoint;
     private FretboardView  mFretboard;
     private LinearLayout   mBottomPanel;
 
+    private TextView       mInstrument;
+    private TextView       mTuning;
     private TextView       mCorrect;
     private TextView       mIncorrect;
     private TextView       mSpeed;
@@ -51,13 +59,13 @@ public class MainActivity extends InjectionActivity
         super.onCreate(bundle);
         setContentView(R.layout.activity_main);
 
-        mSpeed     = findViewById(R.id.speed);
-        mCorrect   = findViewById(R.id.correct);
-        mIncorrect = findViewById(R.id.incorrect);
-        mFretboard = findViewById(R.id.fretboard);
+        mSpeed      = findViewById(R.id.speed);
+        mCorrect    = findViewById(R.id.correct);
+        mIncorrect  = findViewById(R.id.incorrect);
+        mTuning     = findViewById(R.id.tuning);
+        mInstrument = findViewById(R.id.intstrument);
+        mFretboard  = findViewById(R.id.fretboard);
 
-        //TODO: выбираем инструмент в соответствии с настройками mSettings.instrument(), устанавливаем ему соответствующий строй и количество ладов
-        mFretboard.setInstrument(new Guitar(this));
         mFretboard.setOnClickListener(view -> {
             setPoint();
         });
@@ -89,6 +97,7 @@ public class MainActivity extends InjectionActivity
     public synchronized void onClick(View button)
     {
         //TODO: меняем цвет кнопки на красный селектором
+
         button.setEnabled(false);
 
         if (mPoint.getNote().getNoteIndex() == Integer.parseInt(button.getTag().toString()))
@@ -123,8 +132,7 @@ public class MainActivity extends InjectionActivity
 
     /** Анимация масштабирования. */
 
-    private void animation(View view)
-    {
+    private void animation(View view) {
         animation(view, null);
     }
 
@@ -146,8 +154,22 @@ public class MainActivity extends InjectionActivity
 
     private void update()
     {
-        if (mSettings.zoom())
-        {
+        //TODO: выбираем инструмент в соответствии с настройками mSettings.instrument()
+        //TODO: меняем инструмент, если он был изменен в настройках
+        //TODO: меняем строй, если он был изменен в настройках
+        //TODO: определиться с форматом имени строя
+
+        Note[] tuning =
+        mTuningTable.getTuning(mSettings.tuning())
+            .strings
+            .stream()
+            .map(Note::new)
+            .toArray(Note[]::new);
+
+        mTuning.setText(Arrays.toString(tuning));
+        mFretboard.setInstrument(new Guitar(this, tuning));
+
+        if (mSettings.zoom()) {
             //TODO: масштабирование грифа
         }
         if (mSettings.reverse())
@@ -164,8 +186,7 @@ public class MainActivity extends InjectionActivity
             if (mFretboard.getScaleX() < 0)
                 mFretboard.setScaleX(mFretboard.getScaleX() * -1);
         }
-        if (mPoint != null)
-        {
+        if (mPoint != null) {
             setPoint();
         }
     }
@@ -190,8 +211,7 @@ public class MainActivity extends InjectionActivity
 
     /** Возвращает текущее время в миллисекундах. */
 
-    private long getCurrentTime()
-    {
+    private long getCurrentTime() {
         return Calendar.getInstance().getTime().getTime();
     }
 }

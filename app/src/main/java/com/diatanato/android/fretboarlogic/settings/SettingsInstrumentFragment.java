@@ -33,11 +33,12 @@ public class SettingsInstrumentFragment extends PreferenceFragment
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences_instrument);
 
+        //TODO: Inject
         mPlayer    = new GuitarPlayer(getContext());
         mCategory = (PreferenceCategory)findPreference("category_strings");
 
         //TODO: индекс строя из настроек */
-        loadTuning(1);
+        setTuning(getPreferenceScreen().getSharedPreferences().getInt(Settings.KEY_PREFERENCE_TUNING, 1));
     }
 
     @Override
@@ -67,7 +68,7 @@ public class SettingsInstrumentFragment extends PreferenceFragment
     {
         if (item.getItemId() < 100)
         {
-            loadTuning(item.getItemId());
+            setTuning(item.getItemId());
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -91,7 +92,7 @@ public class SettingsInstrumentFragment extends PreferenceFragment
 
     /** Загружает настройки указанного строя. */
 
-    private void loadTuning(int index)
+    private void setTuning(int index)
     {
         mCategory.removeAll();
 
@@ -118,5 +119,6 @@ public class SettingsInstrumentFragment extends PreferenceFragment
 
             mCategory.addPreference(preference);
         }
+        getPreferenceScreen().getSharedPreferences().edit().putInt(Settings.KEY_PREFERENCE_TUNING, index).apply();
     }
 }
