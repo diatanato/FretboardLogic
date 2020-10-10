@@ -5,6 +5,7 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -14,8 +15,10 @@ import androidx.annotation.Nullable;
 
 import com.diatanato.android.fretboarlogic.dagger.ActivityComponent;
 import com.diatanato.android.fretboarlogic.database.dao.TuningDao;
+import com.diatanato.android.fretboarlogic.fretboard.Fretboard;
 import com.diatanato.android.fretboarlogic.fretboard.FretboardPoint;
 import com.diatanato.android.fretboarlogic.fretboard.FretboardView;
+import com.diatanato.android.fretboarlogic.instruments.Instrument;
 import com.diatanato.android.fretboarlogic.instruments.guitar.Guitar;
 import com.diatanato.android.fretboarlogic.instruments.guitar.GuitarPlayer;
 import com.diatanato.android.fretboarlogic.settings.Settings;
@@ -142,8 +145,7 @@ public class MainActivity extends InjectionActivity
     {
         Animator animator = AnimatorInflater.loadAnimator(this, R.animator.scale);
 
-        if (listener != null)
-        {
+        if (listener != null) {
             animator.addListener(listener);
         }
         animator.setTarget(view);
@@ -165,12 +167,20 @@ public class MainActivity extends InjectionActivity
             .stream()
             .map(Note::new)
             .toArray(Note[]::new);
+        Instrument instrument = new Guitar(this, tuning);
+        StringBuilder builder = new StringBuilder(tuning.length * 2);
 
-        mTuning.setText(Arrays.toString(tuning));
-        mFretboard.setInstrument(new Guitar(this, tuning));
+        for (Note note : tuning) {
+            builder.append(Octave.getNoteName(note.getNoteIndex(), Octave.ALTERATION_NONE));
+        }
+        mTuning.setText(builder.toString());
+        mInstrument.setText(instrument.getName());
+        mFretboard.setInstrument(instrument);
 
         if (mSettings.zoom()) {
             //TODO: масштабирование грифа
+            //Rect region = mFretboard.getActiveRegion(mSettings);
+            //mFretboard.setX(mFretboard.getWidth() / 2F - (region.left + (region.right - region.left) / 2F));
         }
         if (mSettings.reverse())
         {
@@ -203,8 +213,7 @@ public class MainActivity extends InjectionActivity
         mPoint.setReverse(mSettings.reverse());
         mPoint.setTextVisibility(View.INVISIBLE);
 
-        for (int i = 0; i < mBottomPanel.getChildCount(); i++)
-        {
+        for (int i = 0; i < mBottomPanel.getChildCount(); i++) {
             mBottomPanel.getChildAt(i).setEnabled(true);
         }
     }

@@ -14,6 +14,8 @@ public class Guitar extends Instrument
     public Guitar(Context context, Note[] tuning)
     {
         super(tuning);
+
+        mName = context.getString(R.string.instrument_guitar);
         mFretboard = new Fretboard(
             ContextCompat.getDrawable(context, R.drawable.fretboard_guitar),
             new FretboardSpecs(),

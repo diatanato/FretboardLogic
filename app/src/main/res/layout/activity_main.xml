@@ -75,7 +75,7 @@
             android:clickable="false"
             android:contentDescription="@string/statistic"
             android:scaleType="centerInside"
-            android:tint="#D6D7D7"
+            app:tint="#D6D7D7"
             app:srcCompat="@drawable/statistic" />
 
         <ImageView
@@ -94,24 +94,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:text="Гитара"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/tuning"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/apppanel"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="@string/instrument_guitar" />
 
     <TextView
         android:id="@+id/tuning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:text="EADGBE"
+        android:letterSpacing="0.35"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/fretboard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/intstrument"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="EADGBE" />
 
     <com.diatanato.android.fretboarlogic.fretboard.FretboardView
         android:id="@+id/fretboard"

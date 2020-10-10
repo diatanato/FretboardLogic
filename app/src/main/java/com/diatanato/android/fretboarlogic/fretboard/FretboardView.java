@@ -83,6 +83,18 @@ public class FretboardView extends RelativeLayout
         }
     }
 
+    /** Возвращает активную область грифа. */
+
+    public Rect getActiveRegion(Settings settings)
+    {
+        //TODO: брать количество струн из строя
+        return new Rect(
+            (int)getFretPosition(settings.minFret()),
+            (int)getStringPosition(1),
+            (int)getFretPosition(settings.maxFret()),
+            (int)getStringPosition(6));
+    }
+
     /** Добавляет случайную ноту на гриф. */
 
     public FretboardPoint addRandomPoint(Settings settings, @PointBackground int background)
@@ -94,7 +106,7 @@ public class FretboardView extends RelativeLayout
 
     public FretboardPoint addPoint(FretboardNote note, @PointBackground int background)
     {
-        Rect position = getPointPosition(note.getFret(), note.getStringIndex());
+        Rect position = getPointPosition(note.getFret(), note.getString());
 
         FretboardPoint point = new FretboardPoint(getContext(), note);
 
@@ -113,34 +125,42 @@ public class FretboardView extends RelativeLayout
 
     private Rect getPointPosition(int fret, int string)
     {
-        //TODO: пересчет пропорций с учетом текущих width и height только в момент изменения размеров коптонета
-        FretboardSpecs specs = mInstrument.getFretboard().getSpecs();
+        float left = getFretPosition(fret);
+        float top  = getStringPosition(string);
 
+        if (fret > 0) {
+            left -= (left - getFretPosition(fret - 1)) / 2F;
+        }
         int pointsize = 32;
-
-        float left = getMeasuredWidth()  * specs.getFretPadding();
-        float top  = getMeasuredHeight() * specs.getStringStep();
-
-        float lastFretSize    = getMeasuredWidth() * specs.getFretSize();
-        float currentFretSize = 0;
-
-        for (int i = 0; i < string; i++)
-        {
-            top += getMeasuredHeight() * specs.getStringStep();
-        }
-        for (int i = 0; i < fret; i++)
-        {
-            left += currentFretSize;
-
-            currentFretSize = lastFretSize * specs.getFretStep();
-            lastFretSize    = currentFretSize;
-        }
-        left += currentFretSize / 2;
 
         left -= pointsize / 2;
         top  -= pointsize / 2;
 
         return new Rect((int)left, (int)top, (int)left + pointsize, (int)top + pointsize);
+    }
+
+    /** Возвращает позицию лада. */
+
+    private float getFretPosition(int fret)
+    {
+        FretboardSpecs specs = mInstrument.getFretboard().getSpecs();
+
+        float pos  = getMeasuredWidth() * specs.getFretPadding();
+        float size = getMeasuredWidth() * specs.getFretSize();
+
+        for (int i = 0; i < fret; i++)
+        {
+            pos  += size;
+            size *= specs.getFretStep();
+        }
+        return pos;
+    }
+
+    /** Возвращает позицию струны по ее номеру. */
+
+    private float getStringPosition(int string)
+    {
+        return getMeasuredHeight() * mInstrument.getFretboard().getSpecs().getStringStep() * string;
     }
 
     /** Возвращает оформление фона для точки на грифе. */

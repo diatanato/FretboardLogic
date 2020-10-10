@@ -6,10 +6,8 @@ import com.diatanato.android.fretboarlogic.fretboard.FretboardNote;
 import com.diatanato.android.fretboarlogic.fretboard.Fretboard;
 import com.diatanato.android.fretboarlogic.Note;
 import com.diatanato.android.fretboarlogic.Octave;
-
 import com.diatanato.android.fretboarlogic.settings.Settings;
 
-import java.util.List;
 import java.util.Random;
 
 public abstract class Instrument
@@ -17,6 +15,7 @@ public abstract class Instrument
     private final static Random mRandom = new Random();
     private final static Octave mOctave = Octave.getInstance();
 
+    protected String     mName;
     protected Note[]     mTuning;
     protected Fretboard  mFretboard;
 
@@ -24,17 +23,15 @@ public abstract class Instrument
         mTuning = tuning;
     }
 
-    /** Генератор случайных чисел в указанных пределах. */
+    /** Возвращает название инструмента. */
 
-    private static int getRandom(int min, int max)
-    {
-        return mRandom.nextInt(max - min) + min;
+    public String getName() {
+        return mName;
     }
 
     /** Описание графи инструмента. */
 
-    public Fretboard getFretboard()
-    {
+    public Fretboard getFretboard() {
         return mFretboard;
     }
 
@@ -76,5 +73,11 @@ public abstract class Instrument
                 return new FretboardNote(note.getNoteIndex(), note.getOctave(), settings.alteration(), string, fret);
             }
         }
+    }
+
+    /** Генератор случайных чисел в указанных пределах. */
+
+    private static int getRandom(int min, int max) {
+        return mRandom.nextInt(max - min) + min;
     }
 }

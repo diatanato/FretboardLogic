@@ -11,12 +11,12 @@ public class FretboardSpecs
 
     public FretboardSpecs()
     {
-        //TODO: куда-то вынести инициализацию
+        //TODO: вынести инициализацию
 
-        mFretStep      = 0.943F;
-        mFretSize      = 0.0762F;
-        mFretPadding   = 0.0170F;
-        mStringStep    = 0.144F;
+        mFretStep      = 0.9430F;
+        mFretSize      = 0.0720F;
+        mFretPadding   = 0.0162F;
+        mStringStep    = 0.1440F;
     }
 
     /** Возвращает коэффициент уменьшения ладов. */
